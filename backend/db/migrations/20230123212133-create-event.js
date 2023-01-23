@@ -1,41 +1,43 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
-
-let options = {};
-if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;
-}
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('Users', {
+    await queryInterface.createTable('Events', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING(30),
-        unique: true,
+      venueId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      firstName: {
-        type: Sequelize.STRING,
+      groupId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      lastName: {
-        type: Sequelize.STRING,
+      name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      type: {
+        type: Sequelize.ENUM(['Online', 'In Person']),
         allowNull: false
       },
-      email: {
-        type: Sequelize.STRING(256),
-        unique: true,
-        allowNull: false
+      capacity: {
+        type: Sequelize.INTEGER
       },
-      hashedPassword: {
-        type: Sequelize.STRING.BINARY,
-        allowNull: false
+      price: {
+        type: Sequelize.DECIMAL
+      },
+      startDate: {
+        type: Sequelize.DATE
+      },
+      endDate: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -47,10 +49,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+    });
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Users';
-    return queryInterface.dropTable(options);
+    await queryInterface.dropTable('Events');
   }
 };
