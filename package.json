@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/NygilNet/API-project/issues"
   },
-  "homepage": "https://github.com/NygilNet/API-project#readme"
+  "homepage": "https://github.com/NygilNet/API-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  }
 }
