@@ -25,6 +25,15 @@ router.post( '/', async (req, res, next) => {
     });
 });
 
+router.get('/', restoreUser, (req, res) => {
+    const { user } = req;
+    if (user) {
+        return res.json({
+            user: user.toSafeObject()
+        });
+    } else return res.json({ user: null });
+});
+
 router.delete('/', (req, res) => {
     res.clearCookie('token');
     return res.json({ message: 'success' });
