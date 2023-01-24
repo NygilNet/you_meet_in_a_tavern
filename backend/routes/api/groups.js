@@ -16,7 +16,7 @@ const userIsOrganizer = async (req, res, next) => {
         statusCode: 404
     });
 
-    if (group.organizerId !== req.user.id) return res.status(401).json({ message: 'In order to add an image to a group, you must be the group\'s organizer.' });
+    if (group.organizerId !== req.user.id) return res.status(401).json({ message: 'In order to do this action, you must be the group\'s organizer.' });
 
     next();
 }
@@ -223,6 +223,53 @@ router.post('/:groupId/images', requireAuth, userIsOrganizer, async (req, res) =
     });
 
     res.json(confirm)
+});
+
+// EDIT A GROUP
+router.put('/:groupId', requireAuth, userIsOrganizer, async (req, res) => {
+    const toUpdate = await Group.findByPk(req.params.groupId);
+    if (!toUpdate) return res.status(404).json({
+        message: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+    const { name, about, type, private, city, state } = req.body;
+
+    try {
+        if (name) toUpdate.name = name;
+        if (about) toUpdate.about = about;
+        if (type) toUpdate.type = type;
+        if (private) toUpdate.private = private;
+        if (city) toUpdate.city = city;
+        if (state) toUpdate.state = state;
+        toUpdate.updatedAt = Date();
+
+        await toUpdate.save();
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation Error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Group.findByPk(req.params.groupId);
+    res.json(confirm);
+});
+
+// DELETE A GROUP
+router.delete('/:groupId', requireAuth, userIsOrganizer, async (req, res) => {
+    const toDelete = await Group.findByPk(req.params.groupId);
+    if (!toDelete) return res.status(404).json({
+        message: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+    await toDelete.destroy();
+
+    res.json({
+        message: 'Successfully deleted',
+        statusCode: 200
+    });
 });
 
 module.exports = router;
