@@ -23,15 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isUrl: true,
-        isImageUrl(val) {
-          const ext = val.split('.')[1];
-          const images = ['img', 'jpeg', 'png'];
-
-          if (!images.includes(ext)) {
-            throw new Error('value must be an image url');
-          }
-        }
+        isUrl: true
       }
     },
     preview: {
