@@ -145,5 +145,35 @@ router.get('/:groupId', async (req, res) => {
     res.json(detailed);
 });
 
+// CREATE A GROUP
+router.post('/', requireAuth, async (req, res) => {
+    const { name, about, type, private, city, state } = req.body;
+
+    try {
+        const newGroup = await Group.create({
+                name,
+                about,
+                type,
+                private,
+                city,
+                state,
+                organizerId: req.user.id
+            });
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation Error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Group.findOne({
+        where: {
+            name
+        }
+    });
+
+    res.status(201).json(confirm);
+});
 
 module.exports = router;
