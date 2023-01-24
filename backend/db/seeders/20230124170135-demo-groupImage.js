@@ -34,7 +34,7 @@ module.exports = {
       url: 'https://faz.com',
       preview: true
     },
-   ])
+   ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

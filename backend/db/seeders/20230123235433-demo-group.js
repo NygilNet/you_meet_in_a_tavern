@@ -45,7 +45,7 @@ module.exports = {
       city: 'New York',
       state: 'NY'
     }
-   ])
+   ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

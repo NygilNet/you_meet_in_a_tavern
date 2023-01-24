@@ -39,7 +39,7 @@ module.exports = {
       groupId: 1,
       status: 'pending'
     }
-   ])
+   ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

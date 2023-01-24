@@ -34,7 +34,7 @@ module.exports = {
       url: 'https://aao.com',
       preview: true
     },
-   ])
+   ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

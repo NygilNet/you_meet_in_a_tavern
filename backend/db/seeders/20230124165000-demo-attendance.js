@@ -39,7 +39,7 @@ module.exports = {
       userId: 2,
       status: 'co-host'
     }
-   ])
+   ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
