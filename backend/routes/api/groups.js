@@ -5,6 +5,22 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
+// AUTHORIZATION MIDDLEWARE
+
+    // CURRENT USER MUST BE THE ORGANIZER FOR THE GROUP
+const userIsOrganizer = async (req, res, next) => {
+    const group = await Group.findByPk(req.params.groupId);
+
+    if (!group) return res.status(404).json({
+        messaage: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+    if (group.organizerId !== req.user.id) return res.status(401).json({ message: 'In order to add an image to a group, you must be the group\'s organizer.' });
+
+    next();
+}
+
 // GET ALL GROUPS
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({
@@ -174,6 +190,39 @@ router.post('/', requireAuth, async (req, res) => {
     });
 
     res.status(201).json(confirm);
+});
+
+// ADD AN IMAGE TO A GROUP BASED ON THE GROUP'S ID
+router.post('/:groupId/images', requireAuth, userIsOrganizer, async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) return res.status(404).json({
+        messaage: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+    const { url, preview } = req.body;
+
+    try {
+        const newImg = await GroupImage.create({
+            url,
+            preview,
+            groupId: req.params.groupId
+        })
+    } catch (e) {
+        return res.status(400).json(e);
+    }
+
+    const confirm = await GroupImage.findOne({
+        where: {
+            url,
+            groupId: req.params.groupId
+        },
+        attributes: {
+            exclude: ['groupId', 'createdAt', 'updatedAt']
+        }
+    });
+
+    res.json(confirm)
 });
 
 module.exports = router;
