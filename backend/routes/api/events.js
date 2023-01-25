@@ -225,4 +225,15 @@ router.put('/:eventId', requireAuth, userIsAtLeastCohost, async (req, res) => {
     res.json(confirm);
 });
 
+// DELETE AN EVENT SPECIFIED BY ITS ID
+router.delete('/:eventId', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    const toDelete = await Event.findByPk(req.params.eventId);
+
+    await toDelete.destroy();
+
+    res.json({
+        message: 'Successfully deleted'
+    });
+});
+
 module.exports = router;
