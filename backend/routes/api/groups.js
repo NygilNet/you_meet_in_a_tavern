@@ -400,4 +400,39 @@ router.get('/:groupId/events', async (req, res) => {
     res.json(eventsList);
 });
 
+// CREATE AN EVENT FOR A GROUP SPECIFIED BY ITS ID
+router.post('/:groupId/events', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+    try {
+        const newEvent = await Event.create({
+            groupId: req.params.groupId,
+            venueId,
+            name,
+            type,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate
+        });
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        })
+    }
+
+    const confirm = await Event.findOne({
+        where: {
+            groupId: req.params.groupId,
+            name,
+            startDate
+        }
+    });
+
+    res.json(confirm);
+});
+
 module.exports = router;
