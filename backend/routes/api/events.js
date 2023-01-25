@@ -36,6 +36,33 @@ const userIsAtLeastAttendee = async (req, res, next) => {
     next();
 }
 
+    // CURRENT USER MUST BE HOST OR COHOST
+const userIsAtLeastCohost = async (req, res, next) => {
+    const event = await Event.findByPk(req.params.eventId);
+    if (!event) return res.status(400).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    const isHost = await Group.findOne({
+        where: {
+            id: event.groupId,
+            organizerId: req.user.id
+        }
+    });
+    const isCohost = await Attendance.findOne({
+        where: {
+            eventId: req.params.eventId,
+            userId: req.user.id,
+            status: 'co-host'
+        }
+    });
+
+    if (!isHost && !isCohost) return res.status(403).json({ message: 'You the host or a cohost of this event for this action' });
+
+    next();
+}
+
 // GET ALL EVENTS
 router.get('/', async (req, res) => {
     const events = await Event.findAll({
@@ -153,6 +180,45 @@ router.post('/:eventId/images', requireAuth, userIsAtLeastAttendee, async (req, 
         where: {
             eventId: req.params.eventId,
             url
+        }
+    });
+
+    res.json(confirm);
+});
+
+// EDIT AN EVENT SPECIFIED BY ITS ID
+router.put('/:eventId', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const venue = await Venue.findByPk(venueId);
+    if (!venue) return res.status(404).json({
+        message: 'Venue couldn\'t be found',
+        statusCode: 404
+    });
+    const event = await Event.findByPk(req.params.eventId);
+
+    try {
+        if (venueId) event.venueId = venueId;
+        if (name) event.name = name;
+        if (type) event.type = type;
+        if (capacity) event.capacity = capacity;
+        if (price) event.price = price;
+        if (description) event.description = description;
+        if (startDate) event.startDate = startDate;
+        if (endDate) event.endDate = endDate;
+        event.updatedAt = Date();
+
+        await event.save();
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Event.findByPk(req.params.eventId, {
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
         }
     });
 
