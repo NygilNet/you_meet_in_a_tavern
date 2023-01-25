@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
         group.GroupImages.forEach(img => {
             if (img.preview === true) group.previewImage = img.url;
         });
-        if (!group.previewImage) groupsList.previewImage = 'no preview image provided';
+        if (!group.previewImage) group.previewImage = 'no preview image provided';
         delete group.GroupImages;
     })
 
