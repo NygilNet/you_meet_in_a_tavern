@@ -54,4 +54,46 @@ router.get('/', async (req, res) => {
     res.json(eventsList);
 });
 
+// GET DETAILS OF AN EVENT SPECIFIED BY ITS ID
+router.get('/:eventId', async (req, res) => {
+    const event = await Event.findByPk(req.params.eventId, {
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        },
+        include: [
+            {
+                model: Attendance
+            },
+            {
+                model: Group,
+                attributes: ['id', 'name', 'private', 'city', 'state']
+            },
+            {
+                model: Venue,
+                attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
+            },
+            {
+                model: EventImage,
+                attributes: ['id', 'url', 'preview']
+            }
+        ]
+    });
+    if (!event) return res.status(404).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    const detailed = event.toJSON();
+
+    let count = 0;
+    const nonMems = ['pending', 'waitlist'];
+    detailed.Attendances.forEach(member => {
+        if (! nonMems.includes(member.status)) count++;
+    });
+    detailed.numMembers = count;
+    delete detailed.Attendances;
+
+    res.json(detailed);
+});
+
 module.exports = router;
