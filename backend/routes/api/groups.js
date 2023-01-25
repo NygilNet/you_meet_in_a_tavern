@@ -21,6 +21,33 @@ const userIsOrganizer = async (req, res, next) => {
     next();
 }
 
+    // CURRENT USER MUST BE ORGANIZER OR A MEMBER WITH COHOST STATUS
+const userIsAtLeastCohost = async (req, res, next) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: [
+            {
+                model: Membership
+            }
+        ]
+    });
+    if (!group) return res.status(404).json({
+        messaage: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+    let permission = false;
+    const obj = group.toJSON();
+
+    if (obj.organizerId === req.user.id) permission = true;
+
+    obj.Memberships.forEach(member => {
+        if (member.userId === req.user.id && member.status === 'co-host') permission = true;
+    });
+
+    if (!permission) return res.status(401).json({ message: 'In order to do this action, you must be either the group\'s organizer or co-host.' });
+
+    next();
+}
+
 // GET ALL GROUPS
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({
@@ -270,6 +297,17 @@ router.delete('/:groupId', requireAuth, userIsOrganizer, async (req, res) => {
         message: 'Successfully deleted',
         statusCode: 200
     });
+});
+
+// GET ALL VENUES FOR A GROUP SPECIFIED BY ITS ID
+router.get('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    const venues = await Venue.findAll({
+        where: {
+            groupId: req.params.groupId
+        }
+    });
+
+    res.json(venues);
 });
 
 module.exports = router;
