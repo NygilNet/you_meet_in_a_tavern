@@ -310,4 +310,35 @@ router.get('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, res
     res.json(venues);
 });
 
+// CREATE A NEW VENUE FOR A GROUP SPECIFIED BY ITS ID
+router.post('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    const { address, city, state, lat, lng } = req.body;
+
+    try {
+        const newVenue = await Venue.create({
+                groupId: req.params.groupId,
+                address,
+                city,
+                state,
+                lat,
+                lng
+            });
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Venue.findOne({
+        where: {
+            groupId: req.params.groupId,
+            address: address
+        }
+    });
+
+    res.json(confirm);
+});
+
 module.exports = router;
