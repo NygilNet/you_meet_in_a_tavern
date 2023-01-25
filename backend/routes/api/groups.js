@@ -1,5 +1,5 @@
 const express = require('express');
-const { Group, GroupImage, Membership, Venue, User } = require('../../db/models');
+const { Group, GroupImage, Membership, Venue, User, Event, EventImage, Attendance } = require('../../db/models');
 const { Op } = require('sequelize');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 
@@ -339,6 +339,65 @@ router.post('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, re
     });
 
     res.json(confirm);
+});
+
+// GET ALL EVENT OF A GROUP SPECIFIED BY ITS ID
+router.get('/:groupId/events', async (req, res) => {
+    const check = await Group.findByPk(req.params.groupId);
+    if (!check) return res.status(404).json({
+        message: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+    const events = await Event.findAll({
+        where: {
+            groupId: req.params.groupId
+        },
+        attributes: {
+            exclude: ['description', 'capacity', 'price', 'createdAt', 'updatedAt']
+        },
+        include: [
+            {
+                model: Attendance
+            },
+            {
+                model: EventImage
+            },
+            {
+                model: Group,
+                attributes: ['id', 'name', 'city', 'state']
+            },
+            {
+                model: Venue,
+                attributes: ['id', 'city', 'state']
+            }
+        ]
+    });
+
+    const eventsList = [];
+
+    events.forEach(event => {
+        eventsList.push(event.toJSON());
+    });
+
+    eventsList.forEach(event => {
+
+        let count = 0;
+        const nonMems = ['pending', 'waitlist'];
+        event.Attendances.forEach(member => {
+            if (! nonMems.includes(member.status)) count++;
+        })
+        event.numMembers = count;
+        delete event.Attendances;
+
+        event.EventImages.forEach(img => {
+            if (img.preview === true) event.previewImage = img.url;
+        });
+        if (!event.previewImage) event.previewImage = 'no preview image provided';
+        delete event.EventImages;
+    })
+
+    res.json(eventsList);
 });
 
 module.exports = router;
