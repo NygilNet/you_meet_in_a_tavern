@@ -1,8 +1,40 @@
 const express = require('express');
 const { Event, Group, Venue, EventImage, Attendance } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { Op } = require('sequelize');
 
 const router = express.Router();
+
+// AUTHORIZATION MIDDLEWARE
+
+    // CURRENT USER MUST BE AN ATTENDEE, HOST, OR COHOST OF EVENT
+const userIsAtLeastAttendee = async (req, res, next) => {
+    const event = await Event.findByPk(req.params.eventId);
+    if (!event) return res.status(400).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    const isHost = await Group.findOne({
+        where: {
+            id: event.groupId,
+            organizerId: req.user.id
+        }
+    });
+    const isPart = await Attendance.findOne({
+        where: {
+            eventId: req.params.eventId,
+            userId: req.user.id,
+            status: {
+                [Op.or]: ['co-host', 'member']
+            }
+        }
+    });
+
+    if (!isHost && !isPart) return res.status(403).json({ message: 'You must belong to this event for this action' });
+
+    next();
+}
 
 // GET ALL EVENTS
 router.get('/', async (req, res) => {
@@ -94,6 +126,37 @@ router.get('/:eventId', async (req, res) => {
     delete detailed.Attendances;
 
     res.json(detailed);
+});
+
+// ADD AN IMAGE TO AN EVENT BASED ON THE EVENT'S ID
+router.post('/:eventId/images', requireAuth, userIsAtLeastAttendee, async (req, res) => {
+    const { url, preview } = req.body;
+
+    try {
+        const newImg = await EventImage.create({
+                eventId: req.params.eventId,
+                url,
+                preview
+            });
+    } catch(e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await EventImage.findOne({
+        attributes:{
+            exclude: ['createdAt', 'updatedAt']
+        },
+        where: {
+            eventId: req.params.eventId,
+            url
+        }
+    });
+
+    res.json(confirm);
 });
 
 module.exports = router;
