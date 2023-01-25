@@ -9,14 +9,20 @@ const validateSignup = [
         .exists({ checkFalsy: true })
         .isEmail()
         .withMessage('Please provide a valid email.'),
-    check('username')
+    check('firstName')
         .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
+        .withMessage('Please provide a first name.'),
+    check('firstName')
         .not()
         .isEmail()
-        .withMessage('Username can not be an email.'),
+        .withMessage('First Name can not be an email.'),
+    check('lastName')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a last name.'),
+    check('lastName')
+        .not()
+        .isEmail()
+        .withMessage('Last Name can not be an email.'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
@@ -27,8 +33,27 @@ const validateSignup = [
 const router = express.Router();
 
 router.post('/', validateSignup, async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+    let { firstName, lastName, email, password, username } = req.body;
+    if (!username) username = `${firstName}${lastName},`
+
+    const checkEmail = await User.findOne({ where: { email } });
+    if (checkEmail) return res.status(403).json({
+        message: 'User already exists',
+        statusCode: 403,
+        errors: {
+            email: 'User with that email already exists'
+        }
+    });
+
+    try {
+        const user = await User.signup({ firstName, lastName, email, password, username });
+    } catch (e) {
+        return res.status(400).json({
+            message: e.title,
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
 
     await setTokenCookie(res, user);
 
