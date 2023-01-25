@@ -16,7 +16,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   options.tableName = 'Groups';
+    options.tableName = 'Groups';
    return queryInterface.bulkInsert(options, [
     {
       organizerId: 1,
