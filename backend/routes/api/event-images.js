@@ -13,19 +13,15 @@ const router = express.Router();
             message: 'Group Image couldn\'t be found',
             statusCode: 404
         });
-        const eventId = img.eventId;
+    const eventId = img.eventId;
 
-        const event = await Event.findByPk(eventId);
-
-        const isHost = await Group.findByPk(event.groupId, {
-            where: {
-                organizerId: req.user.id
-            }
-        });
+    const event = await Event.findByPk(eventId);
+    const group = await Group.findByPk(event.groupId);
+    const isHost = group.organizerId === req.user.id;
 
         const isCohost = await Attendance.findOne({
             where: {
-                eventId,
+                eventId: eventId,
                 userId: req.user.id,
                 status: 'co-host'
             }
@@ -35,7 +31,6 @@ const router = express.Router();
 
         next();
     }
-
 
 router.delete('/:imageId', requireAuth, userIsAtLeastCohost, async (req, res) => {
     const toDelete = await EventImage.findByPk(req.params.imageId);
