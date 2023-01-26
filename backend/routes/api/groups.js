@@ -478,4 +478,67 @@ router.get('/:groupId/members', async (req, res) => {
 
 });
 
+// REQUEST A MEMBERSHIP FOR A GROUP BASED ON THE GROUP'S ID
+router.post('/:groupId/membership', requireAuth, async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: {
+            model: Membership,
+        }
+    });
+    if (!group) return res.status(404).json({
+        message: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+    let currentStatus;
+    group.Memberships.forEach(member => {
+        if (member.userId === req.user.id) {
+            if (member.status === 'pending') {
+                currentStatus = 'pending'
+            } else {
+                currentStatus = 'true'
+            }
+        }
+    });
+
+    if (currentStatus === 'pending') {
+        return res.status(400).json({
+            message: 'Membership has already been requested',
+            statusCode: 400
+        });
+    } else if (currentStatus === 'true') {
+        return res.status(400).json({
+            message: 'User is already a member of the group',
+            statusCode: 400
+        });
+    } else {
+        try {
+            const request = await Membership.create({
+                userId: req.user.id,
+                groupId: req.params.groupId,
+                status: 'pending'
+            });
+        } catch (e) {
+            return res.status(400).json({
+                message: 'Validation error',
+                statusCode: 400,
+                errors: e.errors
+            });
+        }
+    }
+
+    const confirm = await Membership.findOne({
+        where: {
+            userId: req.user.id,
+            groupId: req.params.groupId
+        }
+    });
+
+    const results = {};
+    results.memberId = confirm.id;
+    results.status = confirm.status;
+
+    res.json(results);
+});
+
 module.exports = router;
