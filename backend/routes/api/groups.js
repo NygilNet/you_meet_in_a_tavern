@@ -48,6 +48,40 @@ const userIsAtLeastCohost = async (req, res, next) => {
     next();
 }
 
+    // CHANGE STATUS AUTHORIZATION
+    const changeStatusAuth = async (req, res, next) => {
+        if (req.body.status === 'pending') return res.status(400).json({
+            message: 'Validations Error',
+            statusCode: 400,
+            errors: {
+                status: 'Cannot change a membership status to pending'
+            }
+        });
+        const group = await Group.findByPk(req.params.groupId, {
+            include: [
+                {
+                    model: Membership
+                }
+            ]
+        });
+        if (!group) return res.status(404).json({
+            messaage: 'Group couldn\'t be found',
+            statusCode: 404
+        });
+        let coHostPermission = false;
+        const obj = group.toJSON();
+
+        if (req.body.status === 'co-host' && obj.organizerId !== req.user.id) return res.status(401).json({message: 'Must be group organizer to change member to co-host'})
+
+        obj.Memberships.forEach(member => {
+            if (member.userId === req.user.id && member.status === 'co-host') coHostPermission = true;
+        });
+
+        if (req.body.status === 'member' && (obj.organizerId !== req.user.id && !coHostPermission)) return res.status(401).json({ message: 'Must be organizer or cohost to change status to member' });
+
+        next();
+    }
+
 // GET ALL GROUPS
 router.get('/', async (req, res) => {
     const groups = await Group.findAll({
@@ -535,6 +569,44 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
     });
 
     const results = {};
+    results.memberId = confirm.id;
+    results.status = confirm.status;
+
+    res.json(results);
+});
+
+// CHANGE THE STATUS OF A MEMBERSHIP FOR A GROUP SPECIFIED BY ID
+router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, res) => {
+
+    const member = await Membership.findByPk(req.body.memberId);
+    if (!member) return res.status(400).json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {
+            memberId: 'User couldn\'t be found'
+        }
+    });
+    if (+member.groupId !== +req.params.groupId) return res.status(404).json({
+        message:'Membership between the user and the group does not exits',
+        statusCode: 404
+    });
+
+    try {
+        member.status = req.body.status;
+        member.save();
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Membership.findByPk(req.body.memberId);
+    const results = {};
+
+    results.id = confirm.userId;
+    results.groupId = confirm.groupId;
     results.memberId = confirm.id;
     results.status = confirm.status;
 
