@@ -435,4 +435,47 @@ router.post('/:groupId/events', requireAuth, userIsAtLeastCohost, async (req, re
     res.json(confirm);
 });
 
+// GET ALL MEMBERS OF A GROUP SPECIFIED BY ITS ID
+router.get('/:groupId/members', async (req, res) => {
+
+    const group = await Group.findByPk(req.params.groupId, {
+        include: {
+            model: Membership,
+        }
+    });
+    if (!group) return res.status(404).json({
+        message: 'Group couldn\'nt be found',
+        statusCode: 404
+    });
+
+    let isCohost = false;
+    group.Memberships.forEach(member => {
+        if (member.id === req.user.id && member.status === 'co-host') isCohost = true;
+    });
+    const isOwner = group.organizerId === req.user.id;
+
+
+    const where = {}
+    where.groupId = req.params.groupId;
+
+    if (!isCohost && !isOwner) where.status = ['member', 'co-host']
+
+    const members = await User.findAll({
+        attributes: {
+            exclude: ['username']
+        },
+        include: {
+            model: Membership,
+            attributes: ['status'],
+            where
+        }
+    });
+
+    const result = {};
+    result.Members = members
+
+    res.json(result);
+
+});
+
 module.exports = router;
