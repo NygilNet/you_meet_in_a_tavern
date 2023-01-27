@@ -120,6 +120,63 @@ const userIsHostOrBeingDeleted = async (req, res, next) => {
 
 // GET ALL EVENTS
 router.get('/', async (req, res) => {
+
+    const errors = {};
+    const pagination = {};
+    let { size, page } = req.query;
+
+    if (!size || +size > 20) size = 20;
+    if (!page) page = 1;
+    if (+page > 10) page = 10;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    } else {
+        if (page < 1) errors.page = 'Page must be greater than or equal to 1';
+        if (size < 1) errors.size = 'Size must be greater than or equal to 1';
+    }
+
+    const where = {};
+    let { name, type, startDate } = req.query;
+
+    if (name) {
+        if (typeof(name) !== 'string') {
+            errors.name = 'Name must be a string';
+        } else {
+           where.name = {
+            [Op.like]: `%${name}%`
+           };
+        }
+    }
+    if (type) {
+        if (type !== 'Online' && type !== 'In Person') {
+            errors.type = "Type must be 'Online' or 'In Person'";
+        } else {
+           where.type = {
+            [Op.is]: type
+           };
+        }
+    }
+    if (startDate) {
+        if (!Date.parse(startDate)) {
+            errors.startDate = 'Start date must be a valid datetime'
+        } else {
+          where.startDate = {
+            [Op.like]: `%${startDate}%`
+          };
+        }
+    }
+
+    if (Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation Error',
+        status: 400,
+        errors
+    });
+
     const events = await Event.findAll({
         attributes: {
             exclude: ['description', 'capacity', 'price', 'createdAt', 'updatedAt']
@@ -139,7 +196,9 @@ router.get('/', async (req, res) => {
                 model: Venue,
                 attributes: ['id', 'city', 'state']
             }
-        ]
+        ],
+        where,
+        ...pagination
     });
 
     const eventsList = [];
