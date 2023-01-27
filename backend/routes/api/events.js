@@ -1,5 +1,5 @@
 const express = require('express');
-const { Event, Group, Venue, EventImage, Attendance, User } = require('../../db/models');
+const { Event, Group, Venue, EventImage, Attendance, User, Membership } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 
@@ -59,6 +59,31 @@ const userIsAtLeastCohost = async (req, res, next) => {
     });
 
     if (!isHost && !isCohost) return res.status(403).json({ message: 'You the host or a cohost of this event for this action' });
+
+    next();
+}
+
+    // MUST BE A MEMBER OF THE GROUP
+const userIsMember = async (req, res, next) => {
+    const members = await Event.findByPk(req.params.eventId, {
+        include: {
+            model: Group,
+            include: {
+                model: Membership
+            }
+        }
+    });
+    if (!members) return res.status(404).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    let isMember = false;
+    members.Group.Memberships.forEach(member => {
+        if (member.userId === req.user.id && member.status !== 'pending') isMember = true;
+    });
+
+    if (!isMember) return res.status(403).json({ message: 'You must be a non-pending member of the group for this action.'} );
 
     next();
 }
@@ -277,6 +302,65 @@ router.get('/:eventId/attendees', async (req, res) => {
 
     res.json(results);
 
+});
+
+// REQUEST TO ATTEND AN EVENT BASED ON THE EVENT'S ID
+router.post('/:eventId/attendance', requireAuth, userIsMember, async (req, res) => {
+    const event = await Event.findByPk(req.params.eventId, {
+        include: {
+            model: Attendance
+        }
+    });
+
+    let currentStatus;
+    event.Attendances.forEach(attendance => {
+        if (attendance.userId === req.user.id) {
+            if (attendance.status === 'pending') {
+                currentStatus = 'pending';
+            } else {
+                currentStatus = 'true'
+            }
+        }
+    });
+
+    if (currentStatus === 'pending') {
+        return res.status(400).json({
+            message: 'Attendance has already been requested',
+            statusCode: 400
+        });
+    } else if (currentStatus === 'true') {
+        return res.status(400).json({
+            message: 'User is already an attendee of the event',
+            statusCode: 400
+        });
+    } else {
+        try {
+            const request = await Attendance.create({
+                eventId: req.params.eventId,
+                userId: req.user.id,
+                status: 'pending'
+            });
+        } catch (e) {
+            return res.status(400).json({
+                message: 'Validation error',
+                statusCode: 400,
+                errors: e.errors
+            });
+        }
+    }
+
+    const confirm = await Attendance.findOne({
+        where: {
+            userId: req.user.id,
+            eventId: req.params.eventId
+        }
+    });
+
+    const results = {};
+    results.userId = confirm.id;
+    results.status = confirm.status;
+
+    res.json(results);
 });
 
 module.exports = router;
