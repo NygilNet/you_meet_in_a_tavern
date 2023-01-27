@@ -88,6 +88,36 @@ const userIsMember = async (req, res, next) => {
     next();
 }
 
+    // CURRENT USER MUST BE HOST OF GROUP ATTENDEE THAT IS GOING TO BE DELETED
+const userIsHostOrBeingDeleted = async (req, res, next) => {
+    const event = await Event.findByPk(req.params.eventId, {
+        include: [
+            {
+                model: Attendance
+            }
+        ]
+    });
+    if (!event) return res.status(404).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    let isBeingDeleted = false;
+    event.Attendances.forEach(attendee => {
+        if (req.user.id === attendee.userId && req.user.id === req.body.userId) isBeingDeleted = true;
+    });
+
+    const eventGroup = await Group.findByPk(event.groupId);
+    const isOwner = eventGroup.organizerId === req.user.id;
+
+    if (!isOwner && !isBeingDeleted) return res.status(403).json({
+        message: 'Only the User or organizer may delete an Attendance',
+        statusCode: 403
+    });
+
+    next();
+}
+
 // GET ALL EVENTS
 router.get('/', async (req, res) => {
     const events = await Event.findAll({
@@ -403,6 +433,26 @@ router.put('/:eventId/attendance', requireAuth, userIsAtLeastCohost, async (req,
     });
 
     res.json(confirm);
+});
+
+// DELETE ATTENDANCE TO AN EVENT SPECIFIED BY ID
+router.delete('/:eventId/attendance', requireAuth, userIsHostOrBeingDeleted, async (req, res) => {
+    const attendee = await Attendance.findOne({
+        where: {
+            eventId: req.params.eventId,
+            userId: req.body.userId
+        }
+    });
+    if (!attendee) return res.status(404).json({
+        message: 'Attendance does not exist for this User',
+        statusCode: 404
+    });
+
+    await attendee.destroy();
+
+    res.json({
+        message: 'Successfully deleted attendance from event'
+    });
 });
 
 module.exports = router;
