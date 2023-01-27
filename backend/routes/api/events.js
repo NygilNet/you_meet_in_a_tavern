@@ -1,5 +1,5 @@
 const express = require('express');
-const { Event, Group, Venue, EventImage, Attendance } = require('../../db/models');
+const { Event, Group, Venue, EventImage, Attendance, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 
@@ -252,7 +252,30 @@ router.get('/:eventId/attendees', async (req, res) => {
     let isCohost = false;
     event.Attendances.forEach(attendance => {
         if (attendance.userId === req.user.id && attendance.status === 'co-host') isCohost = true;
-    })
+    });
+    const eventsGroup = await Group.findByPk(event.groupId);
+    const isOwner = eventsGroup.organizerId === req.user.id;
+
+    const where = {};
+    where.eventId = req.params.eventId;
+
+    if (!isCohost && !isOwner) where.status = ['member', 'co-host', 'waitlist'];
+
+    const attendees = await User.findAll({
+        attributes: {
+            exclude: ['username']
+        },
+        include: {
+            model: Attendance,
+            attributes: ['status'],
+            where
+        }
+    });
+
+    const results = {};
+    results.Attendees = attendees;
+
+    res.json(results);
 
 });
 
