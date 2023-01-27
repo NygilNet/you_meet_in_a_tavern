@@ -16,20 +16,41 @@ const validateLogin = [
     handleValidationErrors
 ];
 
+const loginBodyValidation = (req, res, next) => {
+
+    const errors = {};
+    const { email, username, password } = req.body;
+    const credential = email || username;
+
+    if (!credential) {
+        errors.email = 'Email or username is required';
+        errors.username = 'Email or username is required';
+    }
+    if (!password) errors.password = 'Password is required';
+
+    if(Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors
+    });
+
+    next();
+}
+
 const router = express.Router();
 
-router.post( '/', validateLogin, async (req, res, next) => {
-    const { credential, password } = req.body;
+router.post( '/', loginBodyValidation, async (req, res, next) => {
+    const { email, username, password } = req.body;
+    const credential = email || username;
+
 
     const user = await User.login({ credential, password });
 
     if (!user) {
-        const err = new Error('Login failed');
-
-        err.status = 401;
-        err.title = 'Login failed';
-        err.errors = ['The provided credentials were invalid.'];
-        return next(err);
+        return res.status(401).json({
+            message: 'Invalid credentials',
+            statusCode: 401
+        });
     }
 
     await setTokenCookie(res, user);

@@ -32,7 +32,26 @@ const validateSignup = [
 
 const router = express.Router();
 
-router.post('/', validateSignup, async (req, res) => {
+const signUpBodyValidation = (req, res, next) => {
+
+    const errors = {};
+    const { email, firstName, lastName, password } = req.body;
+
+    if (!email.split('').includes('@')) errors.email = 'Invalid email';
+    if (!firstName) errors.firstName = 'First Name is required';
+    if (!lastName) errors.lastName = 'Last Name is required';
+    if (!password) errors.password = 'Password is required';
+
+    if(Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors
+    });
+
+    next();
+}
+
+router.post('/', signUpBodyValidation, validateSignup, async (req, res) => {
     let { firstName, lastName, email, password, username } = req.body;
     if (!username) username = `${firstName}${lastName},`
 
@@ -44,6 +63,7 @@ router.post('/', validateSignup, async (req, res) => {
             email: 'User with that email already exists'
         }
     });
+
 
     let user;
     try {
