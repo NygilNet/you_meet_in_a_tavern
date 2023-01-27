@@ -46,7 +46,10 @@ const userIsAtLeastCohost = async (req, res, next) => {
         if (member.userId === req.user.id && member.status === 'co-host') permission = true;
     });
 
-    if (!permission) return res.status(401).json({ message: 'In order to do this action, you must be either the group\'s organizer or co-host.' });
+    if (!permission) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
@@ -398,7 +401,8 @@ router.get('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, res
     const venues = await Venue.findAll({
         where: {
             groupId: req.params.groupId
-        }
+        },
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
     });
 
     res.json(venues);

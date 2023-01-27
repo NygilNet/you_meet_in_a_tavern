@@ -34,7 +34,10 @@ const router = express.Router();
             if (member.userId === req.user.id && member.status === 'co-host') permission = true;
         });
 
-        if (!permission) return res.status(401).json({ message: 'In order to do this action, you must be either the group\'s organizer or co-host.' });
+        if (!permission) return res.status(403).json({
+            message: 'Forbidden',
+            statusCode: 403
+        });
 
         next();
     }
@@ -47,12 +50,26 @@ router.put('/:venueId', requireAuth, userIsAtLeastCohost, async (req, res) => {
     });
     const { address, city, state, lat, lng } = req.body;
 
+    const errors = {};
+
+    if (!address) errors.address = 'Street address is required';
+    if (!city) errors.city = 'City is required';
+    if (!state) errors.state = 'State is required';
+    if (+lat > 90 || +lat < -90) errors.lat = 'Latitude is not valid';
+    if (+lng > 180 || +lng < -180) errors.lng = 'Longitude is not valid';
+
+    if(Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors
+    });
+
     try {
-        if (address) venue.address = address;
-        if (city) venue.city = city;
-        if (state) venue.state = state;
-        if (lat) venue.lat = lat;
-        if (lng) venue.lng = lng;
+        venue.address = address;
+        venue.city = city;
+        venue.state = state;
+        venue.lat = lat;
+        venue.lng = lng;
         venue.updateAt = Date();
 
         await venue.save()
