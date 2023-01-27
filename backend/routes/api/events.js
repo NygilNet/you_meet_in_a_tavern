@@ -363,4 +363,46 @@ router.post('/:eventId/attendance', requireAuth, userIsMember, async (req, res) 
     res.json(results);
 });
 
+// CHANGE TO STATUS OF A ATTENDANCE FOR AN EVENT SPECIFIED BY ID
+router.put('/:eventId/attendance', requireAuth, userIsAtLeastCohost, async (req, res) => {
+    if (req.body.status === 'pending') return res.status(400).json({
+        message: 'Cannot change an attendance status to pending',
+        statusCode: 400
+    });
+
+    const attendee = await Attendance.findOne({
+        where: {
+            userId: req.body.userId,
+            eventId: req.params.eventId
+        }
+    });
+    if (!attendee) return res.status(404).json({
+        message: 'Attendance between the user and the evenet does not exist',
+        statusCode: 404
+    });
+
+    try {
+        attendee.status = req.body.status;
+        attendee.save();
+    } catch (e) {
+        return res.status(400).json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
+
+    const confirm = await Attendance.findOne({
+        where: {
+            eventId: req.params.eventId,
+            userId: req.body.userId
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        }
+    });
+
+    res.json(confirm);
+});
+
 module.exports = router;
