@@ -236,4 +236,24 @@ router.delete('/:eventId', requireAuth, userIsAtLeastCohost, async (req, res) =>
     });
 });
 
+// GET ALL ATTENDEES OF AN EVENT SPECIFIED BY ITS ID
+router.get('/:eventId/attendees', async (req, res) => {
+
+    const event = await Event.findByPk(req.params.eventId, {
+        include: {
+            model: Attendance
+        }
+    });
+    if (!event) return res.status(404).json({
+        message: 'Event couldn\'t be found',
+        statusCode: 404
+    });
+
+    let isCohost = false;
+    event.Attendances.forEach(attendance => {
+        if (attendance.userId === req.user.id && attendance.status === 'co-host') isCohost = true;
+    })
+
+});
+
 module.exports = router;
