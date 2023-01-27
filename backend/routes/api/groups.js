@@ -16,7 +16,10 @@ const userIsOrganizer = async (req, res, next) => {
         statusCode: 404
     });
 
-    if (group.organizerId !== req.user.id) return res.status(401).json({ message: 'In order to do this action, you must be the group\'s organizer.' });
+    if (group.organizerId !== req.user.id) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
@@ -228,8 +231,9 @@ router.get('/:groupId', async (req, res) => {
     });
 
     if (!group) return res.status(404).json({
-        message: `No group with id ${id} found.`
-    })
+        message: 'Group couldn\'t be found',
+        statusCode: 404
+    });
 
     const detailed = group.toJSON();
 
@@ -251,6 +255,21 @@ router.get('/:groupId', async (req, res) => {
 // CREATE A GROUP
 router.post('/', requireAuth, async (req, res) => {
     const { name, about, type, private, city, state } = req.body;
+
+    const errors = {};
+
+    if (name.length > 60) errors.name = 'Name must be 60 characters or less';
+    if (about.length < 50) errors.about = 'About must be 50 characters or more';
+    if (type !== 'Online' && !(type === 'In Person' || type === 'In person')) errors.type = "Type must be 'Online' or 'In person'";
+    if (typeof(private) !== 'boolean') errors.private = 'Private must be a boolean';
+    if (!city) errors.city = 'City is required';
+    if (!state) errors.state = 'State is required';
+
+    if (Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors
+    });
 
     try {
         const newGroup = await Group.create({
@@ -321,13 +340,28 @@ router.put('/:groupId', requireAuth, userIsOrganizer, async (req, res) => {
     });
     const { name, about, type, private, city, state } = req.body;
 
+    const errors = {};
+
+    if (name.length > 60) errors.name = 'Name must be 60 characters or less';
+    if (about.length < 50) errors.about = 'About must be 50 characters or more';
+    if (type !== 'Online' && !(type === 'In Person' || type === 'In person')) errors.type = "Type must be 'Online' or 'In person'";
+    if (typeof(private) !== 'boolean') errors.private = 'Private must be a boolean';
+    if (!city) errors.city = 'City is required';
+    if (!state) errors.state = 'State is required';
+
+    if (Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors
+    });
+
     try {
-        if (name) toUpdate.name = name;
-        if (about) toUpdate.about = about;
-        if (type) toUpdate.type = type;
-        if (private) toUpdate.private = private;
-        if (city) toUpdate.city = city;
-        if (state) toUpdate.state = state;
+        toUpdate.name = name;
+        toUpdate.about = about;
+        toUpdate.type = type;
+        toUpdate.private = private;
+        toUpdate.city = city;
+        toUpdate.state = state;
         toUpdate.updatedAt = Date();
 
         await toUpdate.save();
