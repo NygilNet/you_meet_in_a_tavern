@@ -49,38 +49,64 @@ const userIsAtLeastCohost = async (req, res, next) => {
 }
 
     // CHANGE STATUS AUTHORIZATION
-    const changeStatusAuth = async (req, res, next) => {
-        if (req.body.status === 'pending') return res.status(400).json({
-            message: 'Validations Error',
-            statusCode: 400,
-            errors: {
-                status: 'Cannot change a membership status to pending'
+const changeStatusAuth = async (req, res, next) => {
+    if (req.body.status === 'pending') return res.status(400).json({
+        message: 'Validations Error',
+        statusCode: 400,
+        errors: {
+            status: 'Cannot change a membership status to pending'
+        }
+    });
+    const group = await Group.findByPk(req.params.groupId, {
+        include: [
+            {
+                model: Membership
             }
-        });
-        const group = await Group.findByPk(req.params.groupId, {
-            include: [
-                {
-                    model: Membership
-                }
-            ]
-        });
-        if (!group) return res.status(404).json({
-            messaage: 'Group couldn\'t be found',
-            statusCode: 404
-        });
-        let coHostPermission = false;
-        const obj = group.toJSON();
+        ]
+    });
+    if (!group) return res.status(404).json({
+        messaage: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+    let coHostPermission = false;
+    const obj = group.toJSON();
 
-        if (req.body.status === 'co-host' && obj.organizerId !== req.user.id) return res.status(401).json({message: 'Must be group organizer to change member to co-host'})
+    if (req.body.status === 'co-host' && obj.organizerId !== req.user.id) return res.status(401).json({message: 'Must be group organizer to change member to co-host'})
 
-        obj.Memberships.forEach(member => {
-            if (member.userId === req.user.id && member.status === 'co-host') coHostPermission = true;
-        });
+    obj.Memberships.forEach(member => {
+        if (member.userId === req.user.id && member.status === 'co-host') coHostPermission = true;
+    });
 
-        if (req.body.status === 'member' && (obj.organizerId !== req.user.id && !coHostPermission)) return res.status(401).json({ message: 'Must be organizer or cohost to change status to member' });
+    if (req.body.status === 'member' && (obj.organizerId !== req.user.id && !coHostPermission)) return res.status(401).json({ message: 'Must be organizer or cohost to change status to member' });
 
-        next();
-    }
+    next();
+}
+
+// CURRENT USER MUST BE HOST OF THE GROUP OR THE MEMBER THAT IS GOING TO BE DELETED
+const userIsHostOrBeingDeleted = async (req, res, next) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: [
+            {
+                model: Membership
+            }
+        ]
+    });
+    if (!group) return res.status(404).json({
+        messaage: 'Group couldn\'t be found',
+        statusCode: 404
+    });
+
+
+    let isBeingDeleted = false;
+    group.Memberships.forEach(member => {
+        if (req.user.id === member.userId && member.id === req.body.memberId) isBeingDeleted = true;
+    });
+
+
+    if (group.organizerId !== req.user.id && !isBeingDeleted) return res.status(401).json({ message: 'Must be organizer or user to delete membership' });
+
+    next();
+}
 
 // GET ALL GROUPS
 router.get('/', async (req, res) => {
@@ -611,6 +637,29 @@ router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, re
     results.status = confirm.status;
 
     res.json(results);
+});
+
+// DELETE MEMBERSHIP TO A GROUP SPECIFIED BY ID
+router.delete('/:groupId/membership', requireAuth, userIsHostOrBeingDeleted, async (req, res) => {
+
+    const user = await Membership.findByPk(req.body.memberId);
+    if (!user) return res.status(400).json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {
+            memberId: 'User couldn\'t be found'
+        }
+    });
+    if (+user.groupId !== +req.params.groupId) return res.status(404).json({
+        message:'Membership does not exist for this User',
+        statusCode: 404
+    });
+
+    await user.destroy();
+
+    res.json({
+        message: 'Successfully deleted membership from group'
+    });
 });
 
 module.exports = router;
