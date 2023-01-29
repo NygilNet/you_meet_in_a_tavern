@@ -493,9 +493,11 @@ router.get('/:groupId/events', async (req, res) => {
         });
         if (!event.previewImage) event.previewImage = 'no preview image provided';
         delete event.EventImages;
-    })
+    });
+    const results = {};
+    results.Events = eventsList;
 
-    res.json(eventsList);
+    res.json(results);
 });
 
 // CREATE AN EVENT FOR A GROUP SPECIFIED BY ITS ID

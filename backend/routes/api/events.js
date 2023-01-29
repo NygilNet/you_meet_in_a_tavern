@@ -31,7 +31,10 @@ const userIsAtLeastAttendee = async (req, res, next) => {
         }
     });
 
-    if (!isHost && !isPart) return res.status(403).json({ message: 'You must belong to this event for this action' });
+    if (!isHost && !isPart) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
@@ -58,7 +61,10 @@ const userIsAtLeastCohost = async (req, res, next) => {
         }
     });
 
-    if (!isHost && !isCohost) return res.status(403).json({ message: 'You the host or a cohost of this event for this action' });
+    if (!isHost && !isCohost) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
@@ -83,7 +89,10 @@ const userIsMember = async (req, res, next) => {
         if (member.userId === req.user.id && member.status !== 'pending') isMember = true;
     });
 
-    if (!isMember) return res.status(403).json({ message: 'You must be a non-pending member of the group for this action.'} );
+    if (!isMember) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
@@ -206,6 +215,9 @@ router.get('/', async (req, res) => {
     events.forEach(event => {
         eventsList.push(event.toJSON());
     });
+    const results = {};
+    results.page = page;
+    results.size = size;
 
     eventsList.forEach(event => {
 
@@ -223,8 +235,9 @@ router.get('/', async (req, res) => {
         if (!event.previewImage) event.previewImage = 'no preview image provided';
         delete event.EventImages;
     })
+    results.Events = eventsList
 
-    res.json(eventsList);
+    res.json(results);
 });
 
 // GET DETAILS OF AN EVENT SPECIFIED BY ITS ID
@@ -263,7 +276,7 @@ router.get('/:eventId', async (req, res) => {
     detailed.Attendances.forEach(member => {
         if (! nonMems.includes(member.status)) count++;
     });
-    detailed.numMembers = count;
+    detailed.numAttending = count;
     delete detailed.Attendances;
 
     res.json(detailed);
@@ -289,7 +302,7 @@ router.post('/:eventId/images', requireAuth, userIsAtLeastAttendee, async (req, 
 
     const confirm = await EventImage.findOne({
         attributes:{
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['createdAt', 'updatedAt', 'eventId']
         },
         where: {
             eventId: req.params.eventId,
@@ -308,6 +321,24 @@ router.put('/:eventId', requireAuth, userIsAtLeastCohost, async (req, res) => {
         message: 'Venue couldn\'t be found',
         statusCode: 404
     });
+
+    const errors = {};
+
+    if (!venue) errors.venueId = 'Venue does not exist';
+    if (name.length < 5) errors.name = 'Name must be at least 5 characters';
+    if (type !== 'Online' && !(type === 'In Person' || type === 'In person')) errors.type = "Type must be 'Online' or 'In person'";
+    if (!Number.isInteger(capacity)) errors.capacity = 'Capacity must be an integer';
+    if (price < 0) errors.price = 'Price is invalid';
+    if (!description) errors.description = 'Description is required';
+    if (Date.parse(startDate) < Date.parse(Date())) errors.startDate = 'Start date must be in the future';
+    if (Date.parse(startDate) > Date.parse(endDate)) errors.endDate = 'End date is less than start date';
+
+    if (Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors
+    });
+
     const event = await Event.findByPk(req.params.eventId);
 
     try {
