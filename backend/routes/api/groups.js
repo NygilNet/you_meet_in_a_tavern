@@ -77,13 +77,19 @@ const changeStatusAuth = async (req, res, next) => {
     let coHostPermission = false;
     const obj = group.toJSON();
 
-    if (req.body.status === 'co-host' && obj.organizerId !== req.user.id) return res.status(401).json({message: 'Must be group organizer to change member to co-host'})
+    if (req.body.status === 'co-host' && obj.organizerId !== req.user.id) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     obj.Memberships.forEach(member => {
         if (member.userId === req.user.id && member.status === 'co-host') coHostPermission = true;
     });
 
-    if (req.body.status === 'member' && (obj.organizerId !== req.user.id && !coHostPermission)) return res.status(401).json({ message: 'Must be organizer or cohost to change status to member' });
+    if (req.body.status === 'member' && (obj.organizerId !== req.user.id && !coHostPermission)) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
