@@ -728,7 +728,7 @@ router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, re
 // DELETE MEMBERSHIP TO A GROUP SPECIFIED BY ID
 router.delete('/:groupId/membership', requireAuth, userIsHostOrBeingDeleted, async (req, res) => {
 
-    const user = await Membership.findByPk(req.body.memberId);
+    const user = await User.findByPk(req.body.memberId);
     if (!user) return res.status(400).json({
         message: 'Validation Error',
         statusCode: 400,
@@ -736,12 +736,18 @@ router.delete('/:groupId/membership', requireAuth, userIsHostOrBeingDeleted, asy
             memberId: 'User couldn\'t be found'
         }
     });
-    if (+user.groupId !== +req.params.groupId) return res.status(404).json({
+    const toDelete = await Membership.findOne({
+        where: {
+            userId: req.body.memberId,
+            groupId: req.params.groupId
+        }
+    });
+    if (!toDelete) return res.status(404).json({
         message:'Membership does not exist for this User',
         statusCode: 404
     });
 
-    await user.destroy();
+    await toDelete.destroy();
 
     res.json({
         message: 'Successfully deleted membership from group'
