@@ -693,14 +693,22 @@ router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, re
             memberId: 'User couldn\'t be found'
         }
     });
-    if (+member.groupId !== +req.params.groupId) return res.status(404).json({
+
+    const toChange = await Membership.findOne({
+        where: {
+            userId: req.body.memberId,
+            groupId: req.params.groupId
+        }
+    })
+
+    if (!toChange) return res.status(404).json({
         message:'Membership between the user and the group does not exits',
         statusCode: 404
     });
 
     try {
-        member.status = req.body.status;
-        member.save();
+        toChange.status = req.body.status;
+        toChange.save();
     } catch (e) {
         return res.status(400).json({
             message: 'Validation error',
