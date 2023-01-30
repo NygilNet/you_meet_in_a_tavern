@@ -217,8 +217,10 @@ router.get('/current', requireAuth, async (req, res) => {
 
         delete group.inArray;
     });
+    const results = {};
+    results.Groups = userGroups;
 
-    res.json(userGroups);
+    res.json(results);
 });
 
 // GET DETAILS OF A GROUP FROM AN ID
@@ -411,10 +413,14 @@ router.get('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, res
         where: {
             groupId: req.params.groupId
         },
-        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+        attributes: {
+            exclude: ['updatedAt', 'createdAt']
+        }
     });
 
-    res.json(venues);
+    res.json({
+        Venues: venues
+    });
 });
 
 // CREATE A NEW VENUE FOR A GROUP SPECIFIED BY ITS ID
@@ -442,10 +448,15 @@ router.post('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, re
         where: {
             groupId: req.params.groupId,
             address: address
+        },
+        attributes: {
+            exclude: ['updatedAt', 'createdAt']
         }
     });
 
-    res.json(confirm);
+    res.json({
+        Venues: confirm
+    });
 });
 
 // GET ALL EVENT OF A GROUP SPECIFIED BY ITS ID
