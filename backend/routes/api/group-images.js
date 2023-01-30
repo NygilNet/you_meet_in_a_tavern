@@ -29,7 +29,10 @@ const router = express.Router();
             }
         });
 
-        if (!isHost && !isCohost) return res.status(403).json({ message: 'You must be the host or a cohost of this group for this action' });
+        if (!isHost && !isCohost) return res.status(403).json({
+            message: 'Forbidden',
+            statusCode: 403
+        });
 
         next();
     }
