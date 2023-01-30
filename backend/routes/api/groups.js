@@ -676,7 +676,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
     });
 
     const results = {};
-    results.memberId = confirm.id;
+    results.memberId = confirm.userId;
     results.status = confirm.status;
 
     res.json(results);
@@ -685,7 +685,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
 // CHANGE THE STATUS OF A MEMBERSHIP FOR A GROUP SPECIFIED BY ID
 router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, res) => {
 
-    const member = await Membership.findByPk(req.body.memberId);
+    const member = await User.findByPk(req.body.memberId);
     if (!member) return res.status(400).json({
         message: 'Validation Error',
         statusCode: 400,
@@ -709,12 +709,17 @@ router.put('/:groupId/membership', requireAuth, changeStatusAuth, async (req, re
         });
     }
 
-    const confirm = await Membership.findByPk(req.body.memberId);
+    const confirm = await Membership.findOne({
+        where: {
+            userId: req.body.memberId,
+            groupId: req.params.groupId
+        }
+    });
     const results = {};
 
-    results.id = confirm.userId;
+    results.id = confirm.id;
     results.groupId = confirm.groupId;
-    results.memberId = confirm.id;
+    results.memberId = confirm.userId;
     results.status = confirm.status;
 
     res.json(results);
