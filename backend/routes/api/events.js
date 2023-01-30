@@ -120,7 +120,7 @@ const userIsHostOrBeingDeleted = async (req, res, next) => {
     const isOwner = eventGroup.organizerId === req.user.id;
 
     if (!isOwner && !isBeingDeleted) return res.status(403).json({
-        message: 'Only the User or organizer may delete an Attendance',
+        message: 'Forbidden',
         statusCode: 403
     });
 

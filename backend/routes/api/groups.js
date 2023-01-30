@@ -115,7 +115,10 @@ const userIsHostOrBeingDeleted = async (req, res, next) => {
     });
 
 
-    if (group.organizerId !== req.user.id && !isBeingDeleted) return res.status(401).json({ message: 'Must be organizer or user to delete membership' });
+    if (group.organizerId !== req.user.id && !isBeingDeleted) return res.status(403).json({
+        message: 'Forbidden',
+        statusCode: 403
+    });
 
     next();
 }
