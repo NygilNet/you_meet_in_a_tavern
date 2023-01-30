@@ -9,14 +9,20 @@ const validateSignup = [
         .exists({ checkFalsy: true })
         .isEmail()
         .withMessage('Please provide a valid email.'),
-    check('username')
+    check('firstName')
         .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
+        .withMessage('Please provide a first name.'),
+    check('firstName')
         .not()
         .isEmail()
-        .withMessage('Username can not be an email.'),
+        .withMessage('First Name can not be an email.'),
+    check('lastName')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a last name.'),
+    check('lastName')
+        .not()
+        .isEmail()
+        .withMessage('Last Name can not be an email.'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
@@ -26,9 +32,50 @@ const validateSignup = [
 
 const router = express.Router();
 
-router.post('/', validateSignup, async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+const signUpBodyValidation = (req, res, next) => {
+
+    const errors = {};
+    const { email, firstName, lastName, password } = req.body;
+
+    if (!email.split('').includes('@')) errors.email = 'Invalid email';
+    if (!firstName) errors.firstName = 'First Name is required';
+    if (!lastName) errors.lastName = 'Last Name is required';
+    if (!password) errors.password = 'Password is required';
+
+    if(Object.keys(errors)[0]) return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors
+    });
+
+    next();
+}
+
+router.post('/', signUpBodyValidation, validateSignup, async (req, res) => {
+    let { firstName, lastName, email, password, username } = req.body;
+    if (!username) username = `${firstName}${lastName},`
+
+    const checkEmail = await User.findOne({ where: { email } });
+    if (checkEmail) return res.status(403).json({
+        message: 'User already exists',
+        statusCode: 403,
+        errors: {
+            email: 'User with that email already exists'
+        }
+    });
+
+
+    let user;
+    try {
+        let signup = await User.signup({ firstName, lastName, email, password, username });
+        user = signup;
+    } catch (e) {
+        return res.status(400).json({
+            message: e.title,
+            statusCode: 400,
+            errors: e.errors
+        });
+    }
 
     await setTokenCookie(res, user);
 

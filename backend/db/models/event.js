@@ -19,8 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Event.init({
     venueId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     groupId: {
       type: DataTypes.INTEGER,
@@ -54,16 +53,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     startDate: {
       type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        isAfter: Date()
-      }
+      allowNull: false
     },
     endDate: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isAfter: this.startDate
+        checkDates(val) {
+          const start = this.startDate.valueOf();
+          const end = val.valueOf();
+
+          if (end < start) {
+            throw new Error('end date must be set after start date');
+          }
+        }
       }
     }
   }, {
