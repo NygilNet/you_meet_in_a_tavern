@@ -497,13 +497,13 @@ router.put('/:eventId/attendance', requireAuth, userIsAtLeastCohost, async (req,
         }
     });
     if (!attendee) return res.status(404).json({
-        message: 'Attendance between the user and the evenet does not exist',
+        message: 'Attendance between the user and the event does not exist',
         statusCode: 404
     });
 
     try {
         attendee.status = req.body.status;
-        attendee.save();
+        await attendee.save();
     } catch (e) {
         return res.status(400).json({
             message: 'Validation error',

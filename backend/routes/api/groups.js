@@ -454,9 +454,7 @@ router.post('/:groupId/venues', requireAuth, userIsAtLeastCohost, async (req, re
         }
     });
 
-    res.json({
-        Venues: confirm
-    });
+    res.json(confirm);
 });
 
 // GET ALL EVENT OF A GROUP SPECIFIED BY ITS ID
