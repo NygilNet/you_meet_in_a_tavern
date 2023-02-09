@@ -53,7 +53,7 @@ const signUpBodyValidation = (req, res, next) => {
 
 router.post('/', signUpBodyValidation, validateSignup, async (req, res) => {
     let { firstName, lastName, email, password, username } = req.body;
-    if (!username) username = `${firstName}${lastName},`
+    if (!username) username = `${firstName}${lastName}`
 
     const checkEmail = await User.findOne({ where: { email } });
     if (checkEmail) return res.status(403).json({
@@ -80,10 +80,7 @@ router.post('/', signUpBodyValidation, validateSignup, async (req, res) => {
     await setTokenCookie(res, user);
 
     const results = {};
-    results.id = user.id;
-    results.firstName = user.firstName;
-    results.lastName = user.lastName;
-    results.email = user.email;
+    results.user = user
 
     return res.json(results);
 });
