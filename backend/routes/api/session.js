@@ -19,8 +19,7 @@ const validateLogin = [
 const loginBodyValidation = (req, res, next) => {
 
     const errors = {};
-    const { email, username, password } = req.body;
-    const credential = email || username;
+    const { credential, password } = req.body;
 
     if (!credential) {
         errors.email = 'Email or username is required';
@@ -40,8 +39,7 @@ const loginBodyValidation = (req, res, next) => {
 const router = express.Router();
 
 router.post( '/', loginBodyValidation, async (req, res, next) => {
-    const { email, username, password } = req.body;
-    const credential = email || username;
+    const { credential, password } = req.body;
 
 
     const user = await User.login({ credential, password });
