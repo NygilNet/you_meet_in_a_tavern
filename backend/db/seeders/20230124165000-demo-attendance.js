@@ -21,22 +21,22 @@ module.exports = {
    return queryInterface.bulkInsert(options, [
     {
       eventId: 1,
-      userId: 1,
-      status: 'co-host'
+      userId: 2,
+      status: 'member'
     },
     {
       eventId: 1,
-      userId: 2,
+      userId: 3,
       status: 'pending'
     },
     {
-      eventId: 2,
-      userId: 3,
-      status: 'co-host'
+      eventId: 1,
+      userId: 5,
+      status: 'member'
     },
     {
-      eventId: 3,
-      userId: 2,
+      eventId: 2,
+      userId: 1,
       status: 'co-host'
     }
    ], {});

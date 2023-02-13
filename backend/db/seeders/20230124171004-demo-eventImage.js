@@ -21,19 +21,24 @@ module.exports = {
    return queryInterface.bulkInsert(options, [
     {
       eventId: 1,
-      url: 'https://asap.com',
+      url: 'https://images.unsplash.com/photo-1598257006626-48b0c252070d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
       preview: true
     },
     {
       eventId: 2,
-      url: 'https://atm.com',
+      url: 'https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
       preview: true
     },
     {
       eventId: 3,
-      url: 'https://aao.com',
+      url: 'https://images.unsplash.com/photo-1587713714775-fa70364f6445?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=964&q=80',
       preview: true
     },
+    {
+      eventId: 2,
+      url: 'https://images.unsplash.com/photo-1567263361507-83f755d9fa97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80',
+      preview: false
+    }
    ], {});
   },
 

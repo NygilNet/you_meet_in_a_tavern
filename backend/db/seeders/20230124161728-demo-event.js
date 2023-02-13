@@ -22,7 +22,7 @@ module.exports = {
     {
       venueId: 1,
       groupId: 1,
-      name: 'How to Run a TTRPG Game',
+      name: 'How To Get Players Engaged',
       description: 'Aenean laoreet metus et ex pellentesque faucibus. Maecenas cursus non purus ac accumsan.',
       type: 'In Person',
       capacity: 15,
@@ -44,7 +44,7 @@ module.exports = {
     {
       venueId: 3,
       groupId: 3,
-      name: 'Session 0 - Creating a Pathfinder Character',
+      name: 'Finding Our Own Path',
       description: 'Sed fermentum tristique orci, sit amet porta nunc dictum a.',
       type: 'Online',
       capacity: 10,
