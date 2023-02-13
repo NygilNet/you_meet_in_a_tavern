@@ -42,8 +42,17 @@ module.exports = {
       about: 'Quisque lacinia quam et varius vestibulum. Vestibulum pretium, dui ac tempus viverra, mauris ipsum finibus ex',
       type: 'Online',
       private: false,
-      city: 'New York',
-      state: 'NY'
+      city: 'Dallas',
+      state: 'TX'
+    },
+    {
+      organizerId: 5,
+      name: 'Game of Masks, a Superhero TTRPG',
+      about: 'Corned beef burgdoggen biltong andouille chislic. Buffalo ham hock turkey pork chop, turducken flank ham chuck beef bresaola.',
+      type: 'In Person',
+      private: false,
+      city: 'Townsville',
+      state: 'XX'
     }
    ], {});
   },
@@ -58,7 +67,7 @@ module.exports = {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['GM Workshop for Beginners', 'Running Curse of Strahd', 'Pathfinder 2e Game for New Players'] }
+      name: { [Op.in]: ['GM Workshop for Beginners', 'Running Curse of Strahd', 'Pathfinder 2e Game for New Players', 'Game of Masks, a Superhero TTRPG'] }
     }, {});
   }
 };
