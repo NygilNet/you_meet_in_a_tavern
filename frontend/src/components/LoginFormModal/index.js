@@ -19,7 +19,7 @@ function LoginFormModal() {
       .catch(
         async (res) => {
           const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
+          if (data && data.statusCode === 401) setErrors(['The provided credentials were invalid']);
         }
       );
   };
@@ -51,7 +51,11 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button
+        type="submit"
+        disabled={password.length < 6 || credential.length < 4 ? true: false}>
+          Log In
+          </button>
       </form>
     </>
   );
