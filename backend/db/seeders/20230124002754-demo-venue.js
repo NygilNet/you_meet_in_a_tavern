@@ -42,6 +42,14 @@ module.exports = {
       state: 'NY',
       lat: 40.730,
       lng: -73.935
+    },
+    {
+      groupId: 4,
+      address: '2345 Musgrave Street',
+      city: 'Townsville',
+      state: 'XX',
+      lat: 38.851,
+      lng: -84.377
     }
    ], {});
   },
@@ -56,7 +64,7 @@ module.exports = {
     options.tableName = 'Venues';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      address: { [Op.in]: ['1314 Inwood Rd', 'Online'] }
+      address: { [Op.in]: ['1314 Inwood Rd', 'Online', '2345 Musgrave Street'] }
     }, {});
   }
 };
