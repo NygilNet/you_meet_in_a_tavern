@@ -1,0 +1,50 @@
+.group-details-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 100vh;
+}
+
+.group-details-page {
+    width: 80%;
+}
+
+.group-details-group-info{
+    display: flex;
+}
+
+.group-info-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 544px;
+    height: 320px;
+
+}
+
+.group-info-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 800px;
+}
+
+.group-button {
+    display: flex;
+    justify-content: center;
+}
+
+.group-details-extra-info {
+    height: 100%;
+    width: 100vw;
+    background-color: lightgray;
+
+    display: flex;
+    justify-content: center;
+}
+
+.extra-info-group-details {
+    width: 80%;
+}
