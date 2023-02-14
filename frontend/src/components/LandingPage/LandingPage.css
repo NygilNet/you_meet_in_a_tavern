@@ -6,17 +6,23 @@
 
 .landing-section-1{
     display: flex;
-    width: fit-content;
+    width: 100vw;
 }
 
 .landing-1-left{
 
     display: flex;
     flex-direction: column;
+
+    width: 50%;
+}
+
+.landing-1-right{
+    width: 50%;
 }
 
 #info-img {
-    max-width: 500px;
+    max-width: 425px;
 }
 
 #intro-text{
