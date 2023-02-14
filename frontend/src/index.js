@@ -21,6 +21,7 @@ if (process.env.NODE_ENV !== "production") {
   window.csrfFetch = csrfFetch;
   window.store = store;
   window.sessionActions = sessionActions;
+  window.groupActions = groupActions;
 }
 
 // Wrap the application with the Modal provider and render the Modal component
