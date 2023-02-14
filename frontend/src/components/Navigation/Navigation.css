@@ -5,4 +5,6 @@
 .header-container {
     display: flex;
     justify-content: space-between;
+
+    border-bottom: solid 1px gray
 }
