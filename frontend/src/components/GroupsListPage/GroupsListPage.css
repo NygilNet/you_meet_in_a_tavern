@@ -10,18 +10,20 @@
     align-items: center;
     align-self: center;
 
-    width: 50%;
+    width: 353px;
 
-    border-bottom: 1px;
-    border-top: 1px;
+
 }
 
 .groups-list-item {
     display: flex;
 
-    height: 130px;
+    height: 124px;
 
+    border-bottom: solid 1px gray;
+    border-top: solid 1px gray;
 
+    padding: 5px;
 }
 
 
@@ -40,5 +42,5 @@
 
 .list-item-info {
     height: 130px;
-    width: 264px;
+    width: 356px;
 }

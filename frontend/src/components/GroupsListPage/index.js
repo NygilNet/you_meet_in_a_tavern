@@ -33,8 +33,13 @@ function GroupsListPage() {
                                         {group.name}
                                     </div>
                                     <div className='list-item-info-location'>
-                                        {group.type}
-                                        {group.city}, {group.state}
+                                        {
+                                            group.type === 'Online' ? (
+                                                group.type
+                                            ) : (
+                                                `${group.city}, ${group.state}`
+                                            )
+                                        }
                                     </div>
                                     <div className='list-item-info-about'>
                                         {group.about}
