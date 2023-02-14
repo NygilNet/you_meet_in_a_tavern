@@ -50,6 +50,27 @@ export const newGroup = (group) => async (dispatch) => {
     })
     const data = await response.json();
     dispatch(setGroup(data))
+    return response;
+}
+
+export const editGroup = (id, group) => async (dispatch) => {
+    const { name, about, type, pri, city, state } = group;
+    const response = await csrfFetch(`/api/groups/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            name,
+            about,
+            type,
+            private: pri,
+            city,
+            state
+        })
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(setGroup(data))
+        return response
+    }
 }
 
 export const getSingleGroup = (id) => async (dispatch) => {
