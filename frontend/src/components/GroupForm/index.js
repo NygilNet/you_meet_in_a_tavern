@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './GroupForm.css';
 
 
 function GroupForm({ group, formType }) {
@@ -10,8 +11,42 @@ function GroupForm({ group, formType }) {
     const [pri, setPri] = useState(group.pri);
     const [previewImg, setPreviewImg] = useState(group.previewImg);
 
+    const [errors, setErrors] = useState({});
+    const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+
+    useEffect(() => {
+        const error = {};
+        const acceptedExtensions = ['png', 'jpg', 'jpeg'];
+
+        if (!location) error.location = 'Location is required';
+        if (!location.split(',')[1] || location.split(',')[2]) error.location = 'Location must be formatted as City, STATE';
+        if (!name) error.name = 'Name is required';
+        if (about.length < 30) error.about = 'Description must be at least 30 characters long';
+        if (!type) error.type = 'Group Type is required';
+        if (!pri) error.pri = 'Visibility Type is required';
+        if (!acceptedExtensions.includes(previewImg.split('.')[previewImg.split('.').length - 1])) error.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
+
+        setErrors(error);
+    }, [location, name, about, type, pri, previewImg])
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        setAttemptedSubmit(true);
+
+        if (Object.values(errors)[0]) return alert('Can not submit');
+
+
+        const [city, state] = location.split(',');
+        setAttemptedSubmit(false);
+        return console.log({
+            name,
+            about,
+            type,
+            pri,
+            city,
+            state,
+            previewImg
+        });
     }
 
     return (
@@ -36,7 +71,10 @@ function GroupForm({ group, formType }) {
                     type="text"
                     id='location'
                     placeholder='City, STATE'
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
                     />
+                    {attemptedSubmit && errors.location && (<div id='error'>{errors.location}</div>)}
                 </div>
                 <div className='group-form-set-name'>
                     <h2>What will your group's name be?</h2>
@@ -45,7 +83,10 @@ function GroupForm({ group, formType }) {
                     type="text"
                     id="name"
                     placeholder='What is your group name?'
+                    value={name}
+                    onChange={e => setName(e.target.value)}
                     />
+                    {attemptedSubmit && errors.name && (<div id='error'>{errors.name}</div>)}
                 </div>
                 <div className='group-form-set-about'>
                     <h2>Now describe what your group will be about</h2>
@@ -57,30 +98,49 @@ function GroupForm({ group, formType }) {
                         <li>What will you do at your events?</li>
                     </ol>
 
-                    <textarea id="about" placeholder='Please write at least 30 characters'></textarea>
+                    <textarea
+                    id="about"
+                    placeholder='Please write at least 30 characters'
+                    value={about}
+                    onChange={e => setAbout(e.target.value)}
+                    ></textarea>
+                    {attemptedSubmit && errors.about && (<div id='error'>{errors.about}</div>)}
 
                 </div>
                 <div className='group-form-final-sets'>
                     <h2>Final steps...</h2>
                     <p htmlFor='type'>Is this an in person or online group?</p>
-                    <select id='type'>
+                    <select
+                    id='type'
+                    value={type}
+                    onChange={e => setType(e.target.value)}
+                    >
                         <option value="">{`(select one)`}</option>
                         <option value="In Person">In Person</option>
                         <option value="Online">Online</option>
                     </select>
+                    {attemptedSubmit && errors.type && (<div id='error'>{errors.type}</div>)}
 
                     <p htmlFor='pri'>Is this group private or public?</p>
-                    <select id='pri'>
-                        <option value="">{`(select one)`}</option>
-                        <option value="true">Private</option>
-                        <option value="false">Public</option>
+                    <select id='pri'
+                    value={pri}
+                    onChange={e => setPri(e.target.value)}
+                    >
+                        <option value={null}>{`(select one)`}</option>
+                        <option value={true}>Private</option>
+                        <option value={false}>Public</option>
                     </select>
+                    {attemptedSubmit && errors.pri && (<div id='error'>{errors.pri}</div>)}
+
                     <p htmlFor='imgUrl'>Please add an image url for your group below:</p>
                     <input
                     type="text"
                     id='imgUrl'
                     placeholder='Image Url'
+                    value={previewImg}
+                    onChange={e => setPreviewImg(e.target.value)}
                     />
+                    {attemptedSubmit && errors.previewImg && (<div id='error'>{errors.previewImg}</div>)}
                 </div>
                 <div>
                     <button onSubmit={handleSubmit}>Create group</button>
