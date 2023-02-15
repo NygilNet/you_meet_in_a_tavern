@@ -15,8 +15,9 @@ function GroupDetailsPage({ user }) {
     }, [dispatch, id])
 
     const group = useSelector(state => state.groups.singleGroup);
-    const previewImg = group.GroupImages.find(img => img?.preview)?.url;
+    const previewImg = group.GroupImages?.find(img => img?.preview)?.url;
 
+    if (!Object.values(group)[0]) return null;
 
     return (
         <div className='group-details-page-container'>
