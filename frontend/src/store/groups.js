@@ -36,7 +36,7 @@ export const deleteGroup = (id) => async (dispatch) => {
 };
 
 export const newGroup = (group) => async (dispatch) => {
-    const { name, about, type, pri, city, state } = group
+    const { name, about, type, pri, city, state, previewImg } = group
     const response = await csrfFetch(`/api/groups`, {
         method: 'POST',
         body: JSON.stringify({
@@ -49,6 +49,22 @@ export const newGroup = (group) => async (dispatch) => {
         })
     })
     const data = await response.json();
+
+    if (previewImg) {
+
+        const imgResponse = await csrfFetch(`/api/groups/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify({
+                url: previewImg,
+                preview: true
+            })
+        });
+
+        data.previewImage = previewImg;
+    } else {
+        data.previewImage = 'no preview image provided';
+    }
+
     dispatch(setGroup(data))
     return response;
 }
@@ -99,7 +115,12 @@ const groupReducer = (state = initialState, action) => {
     let newState;
     switch(action.type) {
         case SET_GROUP:
-            return {...state, allGroups: {...state[allGroups], [action.payload.id]: action.payload } };
+            newState = {...state};
+            let newAllGroups = { ...newState.allGroups}
+            newAllGroups[action.payload.id] = action.payload;
+            newState.allGroups = newAllGroups;
+            return newState;
+            // return {...state, allGroups: {...state[allGroups], [action.payload.id]: action.payload } };
         case REMOVE_GROUP:
             newState = {...state};
             delete newState.allGroups[action.payload];
