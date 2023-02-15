@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleGroup } from '../../store/groups';
 import './GroupDetailsPage.css';
@@ -12,7 +12,7 @@ function GroupDetailsPage({ user }) {
        dispatch(
         getSingleGroup(id)
     );
-    }, [])
+    }, [dispatch, id])
 
     const group = useSelector(state => state.groups.singleGroup);
     const previewImg = group.GroupImages.find(img => img?.preview)?.url;

@@ -4,7 +4,7 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -53,6 +53,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      {user ? (<NavLink to="/groups/new">Start a new group</NavLink>) : null }
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
