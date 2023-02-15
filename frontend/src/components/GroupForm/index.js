@@ -113,6 +113,8 @@ function GroupForm({ group, formType }) {
 
                     <textarea
                     id="about"
+                    rows={6}
+                    cols={36}
                     placeholder='Please write at least 30 characters'
                     value={about}
                     onChange={e => setAbout(e.target.value)}
@@ -156,7 +158,7 @@ function GroupForm({ group, formType }) {
                     {attemptedSubmit && errors.previewImg && (<div id='error'>{errors.previewImg}</div>)}
                 </div>
                 <div>
-                    <input type="submit" value={formType} />
+                    <input type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
                 </div>
             </form>
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSingleGroup } from '../../store/groups';
 import './GroupDetailsPage.css';
 
-function GroupDetailsPage({ user }) {
+function GroupDetailsPage() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -12,10 +12,13 @@ function GroupDetailsPage({ user }) {
        dispatch(
         getSingleGroup(id)
     );
-    }, [])
+    }, [dispatch, id]);
 
+
+    const userId = useSelector(state => state.session.user?.id);
     const group = useSelector(state => state.groups.singleGroup);
     const previewImg = group.GroupImages?.find(img => img?.preview)?.url;
+    const isOrganizer = +userId === +group?.organizerId;
 
     if (!Object.values(group)[0]) return null;
 
@@ -57,7 +60,19 @@ function GroupDetailsPage({ user }) {
                             </div>
                         </div>
                         <div className='group-button'>
-                            <button></button>
+                            {
+                                isOrganizer ? (
+                                    <div className='organizer-button'>
+                                        <button>Create event</button>
+                                        <button>Update</button>
+                                        <button>Delete</button>
+                                    </div>
+                                ) : (
+                                    <div className='viewer-button'>
+                                        <button>Join this group</button>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
