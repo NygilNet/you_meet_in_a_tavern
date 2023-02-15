@@ -70,7 +70,7 @@ export const newGroup = (group) => async (dispatch) => {
 }
 
 export const editGroup = (id, group) => async (dispatch) => {
-    const { name, about, type, pri, city, state } = group;
+    const { name, about, type, pri, city, state, numMembers, previewImg } = group
     const response = await csrfFetch(`/api/groups/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -82,11 +82,27 @@ export const editGroup = (id, group) => async (dispatch) => {
             state
         })
     })
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(setGroup(data))
-        return response
+    const data = await response.json();
+
+    data.numMembers = numMembers;
+
+    if (previewImg) {
+
+        const imgResponse = await csrfFetch(`/api/groups/${data.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify({
+                url: previewImg,
+                preview: true
+            })
+        });
+
+        data.previewImage = previewImg;
+    } else {
+        data.previewImage = 'no preview image provided';
     }
+
+    dispatch(setGroup(data))
+    return response;
 }
 
 export const getSingleGroup = (id) => async (dispatch) => {

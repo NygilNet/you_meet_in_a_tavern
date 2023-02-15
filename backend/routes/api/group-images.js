@@ -9,7 +9,7 @@ const router = express.Router();
     // CURRENT USER MUST BE HOST OR COHOST
     const userIsAtLeastCohost = async (req, res, next) => {
         const img = await GroupImage.findByPk(req.params.imageId);
-        if (!img) return res.status(400).json({
+        if (!img) return res.status(404).json({
             message: 'Group Image couldn\'t be found',
             statusCode: 404
         });
