@@ -65,7 +65,7 @@ export const newGroup = (group) => async (dispatch) => {
         data.previewImage = 'no preview image provided';
     }
 
-    dispatch(setGroup(data))
+    dispatch(setGroup(data));
     return data.id;
 }
 

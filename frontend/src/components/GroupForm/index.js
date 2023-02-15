@@ -58,7 +58,7 @@ function GroupForm({ group, formType }) {
                 state,
                 previewImg
             })
-        ).then(id => history.push(`/group/${id}`));
+        ).then(id => history.push(`/groups/${id}`));
 
     }
 
