@@ -12,7 +12,7 @@ function GroupDetailsPage({ user }) {
        dispatch(
         getSingleGroup(id)
     );
-    }, [dispatch, id])
+    }, [])
 
     const group = useSelector(state => state.groups.singleGroup);
     const previewImg = group.GroupImages?.find(img => img?.preview)?.url;

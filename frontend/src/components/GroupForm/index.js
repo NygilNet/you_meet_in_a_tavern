@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { newGroup } from '../../store/groups';
 import './GroupForm.css';
 
 
 function GroupForm({ group, formType }) {
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
     const [location, setLocation] = useState(group.location);
     const [name, setName] = useState(group.name);
     const [about, setAbout] = useState(group.about);
@@ -31,6 +37,7 @@ function GroupForm({ group, formType }) {
         setErrors(error);
     }, [location, name, about, type, pri, previewImg])
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setAttemptedSubmit(true);
@@ -40,15 +47,19 @@ function GroupForm({ group, formType }) {
 
         const [city, state] = location.split(', ');
         setAttemptedSubmit(false);
-        return console.log({
-            name,
-            about,
-            type,
-            pri,
-            city,
-            state,
-            previewImg
-        });
+
+        const newGroupId = dispatch(
+            newGroup({
+                name,
+                about,
+                type,
+                pri,
+                city,
+                state,
+                previewImg
+            })
+        ).then(id => history.push(`/group/${id}`));
+
     }
 
     return (
@@ -56,7 +67,7 @@ function GroupForm({ group, formType }) {
             <form onSubmit={handleSubmit}>
                     {formType==="Create group"? (
                 <div className='group-form-instructions'>
-                    <h3>BECOME AN ORGANIZER</h3>
+                    <h3>START A NEW GROUP</h3>
                     <h2>We'll walk you through a few steps to build your local community</h2>
                 </div>
                     ) : (
@@ -67,7 +78,7 @@ function GroupForm({ group, formType }) {
                     )}
 
                 <div className='group-form-set-location'>
-                    <h2>First, set your group's location</h2>
+                    <h2>Set your group's location</h2>
                     <p htmlFor='location'>Meetup groups meet locally, in person, and online. We'll connect you with people in your area, and more can join you online.</p>
                     <input
                     type="text"
@@ -91,7 +102,7 @@ function GroupForm({ group, formType }) {
                     {attemptedSubmit && errors.name && (<div id='error'>{errors.name}</div>)}
                 </div>
                 <div className='group-form-set-about'>
-                    <h2>Now describe what your group will be about</h2>
+                    <h2>Describe the purpose of your group</h2>
                     <p>People will see this when we promote your group, but you'll be able to add to it later, too.</p>
 
                     <ol>

@@ -43,7 +43,7 @@ export const newGroup = (group) => async (dispatch) => {
             name,
             about,
             type,
-            private: pri,
+            private: !!pri,
             city,
             state
         })
@@ -66,7 +66,7 @@ export const newGroup = (group) => async (dispatch) => {
     }
 
     dispatch(setGroup(data))
-    return response;
+    return data.id;
 }
 
 export const editGroup = (id, group) => async (dispatch) => {
@@ -101,8 +101,7 @@ export const editGroup = (id, group) => async (dispatch) => {
         data.previewImage = 'no preview image provided';
     }
 
-    dispatch(setGroup(data))
-    return response;
+    return dispatch(setGroup(data))
 }
 
 export const getSingleGroup = (id) => async (dispatch) => {
