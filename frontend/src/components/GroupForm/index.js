@@ -19,12 +19,14 @@ function GroupForm({ group, formType }) {
         const acceptedExtensions = ['png', 'jpg', 'jpeg'];
 
         if (!location) error.location = 'Location is required';
-        if (!location.split(',')[1] || location.split(',')[2]) error.location = 'Location must be formatted as City, STATE';
+        if (location && (!location.split(', ')[1] || location.split(', ')[2])) error.location = 'Location must be formatted as City, STATE';
         if (!name) error.name = 'Name is required';
         if (about.length < 30) error.about = 'Description must be at least 30 characters long';
         if (!type) error.type = 'Group Type is required';
         if (!pri) error.pri = 'Visibility Type is required';
-        if (!acceptedExtensions.includes(previewImg.split('.')[previewImg.split('.').length - 1])) error.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
+        if (previewImg) {
+            if (!acceptedExtensions.includes(previewImg.split('.')[previewImg.split('.').length - 1])) error.previewImg = 'Image URL must end in .png, .jpg, or .jpeg';
+        }
 
         setErrors(error);
     }, [location, name, about, type, pri, previewImg])
@@ -36,7 +38,7 @@ function GroupForm({ group, formType }) {
         if (Object.values(errors)[0]) return alert('Can not submit');
 
 
-        const [city, state] = location.split(',');
+        const [city, state] = location.split(', ');
         setAttemptedSubmit(false);
         return console.log({
             name,
@@ -51,8 +53,8 @@ function GroupForm({ group, formType }) {
 
     return (
         <div className='group-form-container'>
-            <form>
-                    {formType==="CREATE"? (
+            <form onSubmit={handleSubmit}>
+                    {formType==="Create group"? (
                 <div className='group-form-instructions'>
                     <h3>BECOME AN ORGANIZER</h3>
                     <h2>We'll walk you through a few steps to build your local community</h2>
@@ -126,7 +128,7 @@ function GroupForm({ group, formType }) {
                     value={pri}
                     onChange={e => setPri(e.target.value)}
                     >
-                        <option value={null}>{`(select one)`}</option>
+                        <option value="">{`(select one)`}</option>
                         <option value={true}>Private</option>
                         <option value={false}>Public</option>
                     </select>
@@ -143,7 +145,7 @@ function GroupForm({ group, formType }) {
                     {attemptedSubmit && errors.previewImg && (<div id='error'>{errors.previewImg}</div>)}
                 </div>
                 <div>
-                    <button onSubmit={handleSubmit}>Create group</button>
+                    <input type="submit" value={formType} />
                 </div>
             </form>
 

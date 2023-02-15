@@ -5,13 +5,13 @@ function StartGroupForm() {
         name: '',
         about: '',
         type: '',
-        pri: null,
+        pri: '',
         location: '',
         previewImg: ''
     }
 
     return (
-        <GroupForm group={group} formType="CREATE" />
+        <GroupForm group={group} formType="Create group" />
     )
 }
 
