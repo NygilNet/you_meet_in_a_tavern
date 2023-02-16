@@ -528,7 +528,7 @@ router.post('/:groupId/events', requireAuth, userIsAtLeastCohost, async (req, re
     if (!venue && venueId !== null) errors.venueId = 'Venue does not exist';
     if (name.length < 5) errors.name = 'Name must be at least 5 characters';
     if (type !== 'Online' && !(type === 'In Person' || type === 'In person')) errors.type = "Type must be 'Online' or 'In person'";
-    if (!Number.isInteger(capacity)) errors.capacity = 'Capacity must be an integer';
+    if (capacity && !Number.isInteger(capacity)) errors.capacity = 'Capacity must be an integer';
     if (price < 0) errors.price = 'Price is invalid';
     if (!description) errors.description = 'Description is required';
     if (Date.parse(startDate) < Date.parse(Date())) errors.startDate = 'Start date must be in the future';

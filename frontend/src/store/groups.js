@@ -135,7 +135,7 @@ const groupReducer = (state = initialState, action) => {
             newAllGroups[action.payload.id] = action.payload;
             newState.allGroups = newAllGroups;
             return newState;
-            // return {...state, allGroups: {...state[allGroups], [action.payload.id]: action.payload } };
+            // return {...state, allGroups: {...state.allGroups, [action.payload.id]: action.payload } };
         case REMOVE_GROUP:
             newState = {...state};
             delete newState.allGroups[action.payload];
