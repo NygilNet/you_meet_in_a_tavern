@@ -48,3 +48,8 @@
 .extra-info-group-details {
     width: 80%;
 }
+
+button#viewer-button{
+    background-color: red;
+    color: white;
+}

@@ -15,11 +15,35 @@ function GroupDetailsPage() {
     );
     }, [dispatch, id]);
 
+    const comingSoon = (e) => {
+        return alert('Feature coming soon');
+    }
+
 
     const userId = useSelector(state => state.session.user?.id);
     const group = useSelector(state => state.groups.singleGroup);
     const previewImg = group.GroupImages?.find(img => img?.preview)?.url;
     const isOrganizer = +userId === +group?.organizerId;
+
+    const events = useSelector(state => Object.values(state.events.allEvents));
+    const groupEvents = events.filter(event => event.groupId === group.id);
+
+    let upComingEvents = [];
+    let pastEvents = [];
+
+    groupEvents.forEach(event => {
+        if (Date.parse(event.startDate) > Date.parse(Date())) {
+            upComingEvents.push(event);
+        } else {
+            pastEvents.push(event);
+        }
+    })
+
+    upComingEvents.sort((a,b) => a.startDate - b.startDate);
+    pastEvents.sort((a,b) => a.startDate - b.startDate);
+
+    console.log('Up Coming Events', upComingEvents)
+    console.log('Past Events', pastEvents)
 
     if (!Object.values(group)[0]) return null;
 
@@ -52,12 +76,12 @@ function GroupDetailsPage() {
                                 }
                             </div>
                             <div className='group-info-cetera'>
-                                ## events • {
+                                {groupEvents.length} events • {
                                     group.private === true ? `Private` : `Public`
                                 }
                             </div>
                             <div className='group-info-organizer'>
-                                {`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}
+                                {`Organized by: ${group.Organizer.firstName} ${group.Organizer.lastName}`}
                             </div>
                         </div>
                         <div className='group-button'>
@@ -70,7 +94,7 @@ function GroupDetailsPage() {
                                     </div>
                                 ) : (
                                     <div className='viewer-button'>
-                                        <button>Join this group</button>
+                                        <button onClick={comingSoon} id='viewer-button'>Join this group</button>
                                     </div>
                                 )
                             }
