@@ -42,8 +42,6 @@ function GroupDetailsPage() {
     upComingEvents.sort((a,b) => a.startDate - b.startDate);
     pastEvents.sort((a,b) => a.startDate - b.startDate);
 
-    console.log('Up Coming Events', upComingEvents)
-    console.log('Past Events', pastEvents)
 
     if (!Object.values(group)[0]) return null;
 
