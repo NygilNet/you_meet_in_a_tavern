@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { newGroup } from '../../store/groups';
+import { newGroup, editGroup } from '../../store/groups';
 import './GroupForm.css';
 
 
@@ -9,6 +9,7 @@ function GroupForm({ group, formType }) {
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const { id } = useParams();
 
     const [location, setLocation] = useState(group.location);
     const [name, setName] = useState(group.name);
@@ -48,17 +49,31 @@ function GroupForm({ group, formType }) {
         const [city, state] = location.split(', ');
         setAttemptedSubmit(false);
 
-        const newGroupId = dispatch(
-            newGroup({
-                name,
-                about,
-                type,
-                pri,
-                city,
-                state,
-                previewImg
-            })
-        ).then(id => history.push(`/groups/${id}`));
+        if (formType === "Create group") {
+            const newGroupId = dispatch(
+                newGroup({
+                    name,
+                    about,
+                    type,
+                    pri,
+                    city,
+                    state,
+                    previewImg
+                })
+            ).then(newId => history.push(`/groups/${newId}`));
+        } else if (formType === "Update group") {
+            dispatch(
+                editGroup(id, {
+                    name,
+                    about,
+                    type,
+                    pri,
+                    city,
+                    state,
+                    previewImg
+                })
+            ).then(r => history.push(`/groups/${id}`));
+        }
 
     }
 
