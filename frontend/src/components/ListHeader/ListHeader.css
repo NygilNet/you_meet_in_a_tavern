@@ -1,0 +1,13 @@
+a#current-page {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: underline;
+    color: teal;
+
+}
+
+a#active-link {
+    text-decoration: none;
+    color: gray;
+
+}

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ListHeader from '../ListHeader';
 import './GroupsListPage.css';
 
 function GroupsListPage() {
 
     const groups = useSelector(state => Object.values(state.groups.allGroups));
+    const events = useSelector(state => Object.values(state.events.allEvents));
 
     return (
         <div className='groups-list-page-container'>
+            <ListHeader headerType="groups" />
             <div className='groups-list'>
                 {
                     groups.map(group => (
@@ -45,7 +48,7 @@ function GroupsListPage() {
                                         {group.about}
                                     </div>
                                     <div className='list-item-info-cetera'>
-                                        {group.numMembers} members • {group.private ? 'Private' : 'Public'}
+                                        {events.filter(event => event.groupId === group.id).length} events • {group.private ? 'Private' : 'Public'}
                                     </div>
                                 </div>
                             </div>
