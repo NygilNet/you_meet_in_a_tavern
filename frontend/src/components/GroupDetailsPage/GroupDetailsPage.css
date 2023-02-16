@@ -43,10 +43,11 @@
 
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 .extra-info-group-details {
-    width: 80%;
+    width: 80vw;
 }
 
 button#viewer-button{

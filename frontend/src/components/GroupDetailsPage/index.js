@@ -111,6 +111,18 @@ function GroupDetailsPage() {
                         <p>{group.about}</p>
                     </div>
                 </div>
+            <div className='group-details-events'>
+                { upComingEvents[0] ? (
+                    <div className='group-events-upcoming'>
+                        <h2>Upcoming Events {`(${upComingEvents.length})`}</h2>
+                    </div>
+                ) : null }
+                { pastEvents[0] ? (
+                    <div className='group-events-past'>
+                        <h2>Past Events {`(${pastEvents.length})`}</h2>
+                    </div>
+                ) : null }
+            </div>
             </div>
         </div>
     );
