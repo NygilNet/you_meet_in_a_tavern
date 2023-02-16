@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleGroup } from '../../store/groups';
 import './GroupDetailsPage.css';
 
 function GroupDetailsPage() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -63,8 +64,8 @@ function GroupDetailsPage() {
                             {
                                 isOrganizer ? (
                                     <div className='organizer-button'>
-                                        <button>Create event</button>
-                                        <button>Update</button>
+                                        <button onClick={e => history.push(`/groups/${group.id}/events/new`)}>Create event</button>
+                                        <button onClick={e => history.push(`/groups/${group.id}/edit`)}>Update</button>
                                         <button>Delete</button>
                                     </div>
                                 ) : (
