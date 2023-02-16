@@ -115,11 +115,57 @@ function GroupDetailsPage() {
                 { upComingEvents[0] ? (
                     <div className='group-events-upcoming'>
                         <h2>Upcoming Events {`(${upComingEvents.length})`}</h2>
+                        {
+                            upComingEvents.map(event => (
+                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name} style={{textDecoration: 'none'}}>
+                                    <div className='group-events-card'>
+                                        <div className='group-events-card-img'>
+                                            {event.previewImage === 'no preview image provided' ? 'No preview image provided' : (
+                                                <img
+                                                alt={event.description}
+                                                src={event.previewImage}
+                                                style={{ height: '127px', width: '178px', objectFit:'cover'}}
+                                                />
+                                            )}
+                                        </div>
+                                        <div className='group-events-card-info'>
+                                            <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
+                                            <div>{event.name}</div>
+                                            <div>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
+                                        </div>
+                                    </div>
+                                    <div className='group-events-card-description'>{event.description}</div>
+                                </NavLink>
+                            ))
+                        }
                     </div>
                 ) : null }
                 { pastEvents[0] ? (
                     <div className='group-events-past'>
                         <h2>Past Events {`(${pastEvents.length})`}</h2>
+                        {
+                            pastEvents.map(event => (
+                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name} style={{textDecoration: 'none'}}>
+                                    <div className='group-events-card'>
+                                        <div className='group-events-card-img'>
+                                            {event.previewImage === 'no preview image provided' ? 'No preview image provided' : (
+                                                <img
+                                                alt={event.description}
+                                                src={event.previewImage}
+                                                style={{ height: '127px', width: '178px', objectFit:'cover'}}
+                                                />
+                                            )}
+                                        </div>
+                                        <div className='group-events-card-info'>
+                                            <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
+                                            <div>{event.name}</div>
+                                            <div>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
+                                        </div>
+                                    </div>
+                                    <div className='group-events-card-description'>{event.description}</div>
+                                </NavLink>
+                            ))
+                        }
                     </div>
                 ) : null }
             </div>
