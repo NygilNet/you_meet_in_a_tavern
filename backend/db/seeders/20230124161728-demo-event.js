@@ -27,8 +27,8 @@ module.exports = {
       type: 'In Person',
       capacity: 15,
       price: 0,
-      startDate: '2023-02-06',
-      endDate: '2023-02-12'
+      startDate: new Date(2023, 3, 11, 20, 15),
+      endDate: new Date(2023, 3, 11, 22)
     },
     {
       venueId: 2,
@@ -38,8 +38,8 @@ module.exports = {
       type: 'Online',
       capacity: 6,
       price: 4.99,
-      startDate: '2023-10-06',
-      endDate: '2023-10-31'
+      startDate: new Date(2023, 8, 20, 8, 30),
+      endDate: new Date(2023, 8, 20, 11)
     },
     {
       venueId: 3,
@@ -49,9 +49,20 @@ module.exports = {
       type: 'Online',
       capacity: 10,
       price: 0,
-      startDate: '2023-02-12',
-      endDate: '2023-02-18'
+      startDate: new Date(2023, 8, 6, 13),
+      endDate: new Date(2023, 8, 6, 14, 30)
     },
+    {
+      venueId: null,
+      groupId: 1,
+      name: 'How To Play Pass Level 12',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vestibulum sed turpis ac tristique. Maecenas arcu orci, molestie ac sem a, dapibus luctus ante.',
+      type: 'Online',
+      capacity: null,
+      price: 0,
+      startDate: new Date(2023, 5, 3, 11, 10),
+      endDate: new Date(2023, 5, 3, 13)
+    }
    ], {});
   },
 

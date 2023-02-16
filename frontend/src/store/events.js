@@ -58,6 +58,9 @@ export const newEvent = (id, event) => async (dispatch) => {
                 preview: true
             })
         })
+        data.previewImage = imgUrl;
+    } else {
+        data.previewImage = 'no preview image provided';
     }
 
     dispatch(setEvent((data)));
