@@ -6,7 +6,7 @@ import { getSingleGroup } from '../../store/groups';
 
 import './EventForm.css';
 
-function EventForm() {
+function EventForm({ event, formType }) {
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -20,6 +20,26 @@ function EventForm() {
 
     const userId = useSelector(state => state.session.user.id)
     const organizerId = useSelector(state => state.groups.singleGroup.organizerId);
+
+    const [name, setName] = useState(event.name);
+    const [type, setType] = useState(event.type);
+    const [pri, setPri] = useState(event.pri);
+    const [price, setPrice] = useState(event.price);
+    const [startDate, setStartDate] = useState(event.startDate);
+    const [endDate, setEndDate] = useState(event.endDate);
+    const [imgUrl, setImgUrl] = useState(event.imgUrl);
+    const [description, setDescription] = useState(event.description);
+
+    const [errors, setErrors] = useState({});
+    const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+
+    useEffect(() => {
+        const error = {};
+
+
+
+        setErrors(error);
+    }, [name, type, pri, price, startDate, endDate, imgUrl, description])
 
     const handleSubmit = (e) => {
         e.preventDefault();

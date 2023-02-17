@@ -10,7 +10,7 @@ import StartGroupForm from "./components/GroupForm/StartGroupForm";
 import UpdateGroupForm from "./components/GroupForm/UpdateGroupForm";
 import EventsListPage from "./components/EventsListPage";
 import EventDetailsPage from "./components/EventDetailsPage";
-import EventForm from "./components/EventForm";
+import CreateEventForm from "./components/EventForm/CreateEventForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function App() {
             <EventDetailsPage />
           </Route>
           <Route path="/groups/:id/events/new">
-            <EventForm />
+            <CreateEventForm />
           </Route>
         </Switch>
       )}
