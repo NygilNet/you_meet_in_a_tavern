@@ -49,16 +49,24 @@ function ProfileButton({ user }) {
     history.push('/groups');
   }
 
+  const viewEventsButton = () => {
+    history.push('/events');
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      {user ? (<NavLink to="/groups/new">Start a new group</NavLink>) : null }
+      {user ? (
+      <>
+      <NavLink to="/groups/new">Start a new group</NavLink>
+      </>) : null }
       <button onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         <li onClick={viewGroupsButton}>View Groups</li>
+        <li onClick={viewEventsButton}>Find an event</li>
         {user ? (
           <>
             <li>Hello, "{user.firstName}"</li>
