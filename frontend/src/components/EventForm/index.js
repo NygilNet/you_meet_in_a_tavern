@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, Redirect } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { newEvent } from '../../store/events';
 import { getSingleGroup } from '../../store/groups';
@@ -19,7 +19,7 @@ function EventForm({ event, formType }) {
     }, [])
 
     const userId = useSelector(state => state.session.user.id)
-    const organizerId = useSelector(state => state.groups.singleGroup.organizerId);
+    const group = useSelector(state => state.groups.singleGroup);
 
     const [name, setName] = useState(event.name);
     const [type, setType] = useState(event.type);
@@ -60,12 +60,76 @@ function EventForm({ event, formType }) {
         setAttemptedSubmit(false);
     }
 
-    if (organizerId !== userId) return (<Redirect to="/" />)
+    if (group.organizerId !== userId) return history.push('/');
 
     return (
         <div className='event-form-container'>
             <form onSubmit={handleSubmit}>
+                {formType === 'Create Event' && (
+                    <h2>Create an event for {group.name}</h2>
+                )}
+                <div className='event-form-name'>
+                    <p>What is the name of your event?</p>
+                    <input
+                    type="text"
+                    placeholder='Event Name'
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    />
+                    {attemptedSubmit && errors.name && (<div id='error'>{errors.name}</div>)}
+                </div>
+                <div className='event-form-physical-info'>
+                    <p>Is this an in person or online event?</p>
+                    <select
+                    value={type}
+                    onChange={e => setType(e.target.value)}
+                    >
+                        <option value="">{`(select one)`}</option>
+                        <option value="In Person">In Person</option>
+                        <option value="Online">Online</option>
+                    </select>
+                    {attemptedSubmit && errors.type && (<div id='error'>{errors.type}</div>)}
 
+                    <p>Is this event private or public?</p>
+                    <select
+                    value={pri}
+                    onChange={e => setPri(e.target.value)}
+                    >
+                        <option value="">{`(select one)`}</option>
+                        <option value={true}>Private</option>
+                        <option value={false}>Public</option>
+                    </select>
+                    {attemptedSubmit && errors.pri && (<div id='error'>{errors.pri}</div>)}
+
+                    <p>What is the price for your event?</p>
+                    <input type="" value={price} onChange={e => setPrice(e.target.value)} placeholder="0" />
+                    {attemptedSubmit && errors.price && (<div id='error'>{errors.price}</div>)}
+                </div>
+                <div className='event-form-time-info'>
+                    <p>When does your event start?</p>
+                    <input value={startDate} type="datetime-local" onChange={e => setStartDate(e.target.value)} placeholder="MM/DD/YYYY HH:mm AM" />
+                    {attemptedSubmit && errors.startDate && (<div id='error'>{errors.startDate}</div>)}
+
+                    <p>When does your event end?</p>
+                    <input value={endDate} type="datetime-local" onChange={e => setEndDate(e.target.value)} placeholder="MM/DD/YYY HH:mm PM" />
+                    {attemptedSubmit && errors.endDate && (<div id='error'>{errors.endDate}</div>)}
+                </div>
+                <div className='event-form-image'>
+                    <p>Please add in image url for your event below:</p>
+                    <input value={imgUrl} onChange={e => setImgUrl(e.target.value)} placeholder='Image URL' />
+                    {attemptedSubmit && errors.imgUrl && (<div id='error'>{errors.imgUrl}</div>)}
+                </div>
+                <div className='event-form-description'>
+                    <p>Please describe your event:</p>
+                    <textarea
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder='Please include at least 30 characters'
+                    rows={6}
+                    cols={42}
+                    ></textarea>
+                    {attemptedSubmit && errors.description && (<div id='error'>{errors.description}</div>)}
+                </div>
                 <input type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
             </form>
         </div>
