@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleGroup } from '../../store/groups';
+import OpenModalButton from '../OpenModalButton';
+import DeleteGroupModal from '../DeleteGroupModal';
 import './GroupDetailsPage.css';
 
 function GroupDetailsPage() {
@@ -88,7 +90,10 @@ function GroupDetailsPage() {
                                     <div className='organizer-button'>
                                         <button onClick={e => history.push(`/groups/${group.id}/events/new`)}>Create event</button>
                                         <button onClick={e => history.push(`/groups/${group.id}/edit`)}>Update</button>
-                                        <button>Delete</button>
+                                        <OpenModalButton
+                                        buttonText="Delete"
+                                        modalComponent={<DeleteGroupModal groupId={group.id} />}
+                                        />
                                     </div>
                                 ) : (
                                     <div className='viewer-button'>
