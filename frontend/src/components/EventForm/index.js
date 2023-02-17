@@ -57,6 +57,20 @@ function EventForm({ event, formType }) {
 
         if (Object.values(errors)[0]) return alert('Can not submit');
 
+        if (formType === "Create Event") {
+            dispatch(
+                newEvent(group.id, {
+                    name,
+                    type,
+                    price,
+                    startDate,
+                    endDate,
+                    description,
+                    imgUrl
+                })
+            ).then(newId => history.push(`/events/${newId}`));
+        }
+
         setAttemptedSubmit(false);
     }
 

@@ -67,7 +67,8 @@ export const newEvent = (id, event) => async (dispatch) => {
             price,
             description,
             startDate,
-            endDate
+            endDate,
+            venueId: null
         })
     })
     const data = await response.json();
