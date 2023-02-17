@@ -26,11 +26,6 @@ const getGroup = (group) => {
     };
 };
 
-const normalizeData = (array) => {
-    const obj = {};
-    array.forEach(o => obj[o.id] = o);
-    return obj;
-}
 
 const removeGroup = (id) => {
     return {
@@ -38,6 +33,12 @@ const removeGroup = (id) => {
         payload: id
     };
 };
+
+const normalizeData = (array) => {
+    const obj = {};
+    array.forEach(o => obj[o.id] = o);
+    return obj;
+}
 
 export const restoreGroups = () => async (dispatch) => {
     const response = await csrfFetch(`/api/groups`);

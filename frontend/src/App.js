@@ -20,6 +20,7 @@ function App() {
   useEffect(() => {
     // add logic to restore the group state and event state
     dispatch(groupActions.restoreGroups());
+    dispatch(eventActions.restoreEvents());
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 

@@ -1,8 +1,16 @@
 import { csrfFetch } from "./csrf";
 
+const RESTORE_EVENT = 'events/restoreEvent'
 const SET_EVENT = 'events/setEvent';
 const GET_EVENT = 'events/getEvent';
 const REMOVE_EVENT = 'events/removeEvent';
+
+const restoreEvent = (events) => {
+    return {
+        type: RESTORE_EVENT,
+        payload: events
+    };
+};
 
 const setEvent = (event) => {
     return {
@@ -24,6 +32,21 @@ const removeEvent = (id) => {
         payload: id
     }
 };
+
+const normalizeData = (array) => {
+    const obj = {};
+    array.forEach(o => obj[o.id] = o);
+    return obj
+}
+
+export const restoreEvents = () => async (dispatch) => {
+    const response = await csrfFetch(`/api/events`);
+    const data = await response.json();
+
+    const normalizeEvents = normalizeData(data.Events);
+
+    dispatch(restoreEvent(normalizeEvents));
+}
 
 export const deleteEvent = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/events/${id}`, {
@@ -92,6 +115,10 @@ const initialState = { allEvents, singleEvent: {} };
 const eventReducer = (state = initialState, action) => {
     let newState;
     switch(action.type) {
+        case RESTORE_EVENT:
+            newState = {...state};
+            newState.allEvents = action.payload;
+            return newState;
         case SET_EVENT:
             newState = {...state};
             let newAllEvents = {...newState.allEvents};
