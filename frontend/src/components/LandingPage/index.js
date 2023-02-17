@@ -1,9 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import SignupFormModal from '../SignupFormModal';
 import './LandingPage.css';
 
 function LandingPage() {
+
+    const [showMenu, setShowMenu] = useState(false);
+    const ulRef = useRef();
+
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+    }
+
+    useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = (e) => {
+          if (!ulRef.current.contains(e.target)) {
+            setShowMenu(false);
+          }
+        };
+
+        document.addEventListener('click', closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+      }, [showMenu]);
+
+      const closeMenu = () => setShowMenu(false);
 
     const user = useSelector(state => state.session.user);
 
@@ -65,7 +91,11 @@ function LandingPage() {
                     </div>
                 </section>
                 <section className='landing-section-4'>
-                    <button>Join Meetup</button>
+                    <OpenModalMenuItem
+                    itemText="Join Meetup"
+                    onItemClick={closeMenu}
+                    modalComponent={<SignupFormModal />}
+                    />
                 </section>
             </div>
         )

@@ -35,14 +35,29 @@ function EventForm({ event, formType }) {
 
     useEffect(() => {
         const error = {};
+        const acceptedExtensions = ['png', 'jpg', 'jpeg'];
 
-
+        if (!name) error.name = 'Name is required';
+        if (!type) error.type = 'Event Type is required';
+        if (!pri) error.pri = 'Visibility is required';
+        if (!price) error.price = 'Price is required';
+        if (!startDate) error.startDate = 'Event start is required';
+        if (!endDate) error.endDate = 'Event end is required';
+        if (imgUrl) {
+            if (!acceptedExtensions.includes(imgUrl.split('.')[imgUrl.split('.').length - 1])) error.imgUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+        }
+        if (!description) error.description = 'Description must be at least 30 characters long';
 
         setErrors(error);
     }, [name, type, pri, price, startDate, endDate, imgUrl, description])
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setAttemptedSubmit(true);
+
+        if (Object.values(errors)[0]) return alert('Can not submit');
+
+        setAttemptedSubmit(false);
     }
 
     if (organizerId !== userId) return (<Redirect to="/" />)
@@ -51,6 +66,7 @@ function EventForm({ event, formType }) {
         <div className='event-form-container'>
             <form onSubmit={handleSubmit}>
 
+                <input type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
             </form>
         </div>
     )

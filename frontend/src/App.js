@@ -39,7 +39,7 @@ function App() {
           <Route path="/groups/:id/edit">
             <UpdateGroupForm />
           </Route>
-          <Route path="/events">
+          <Route exact path="/events">
             <EventsListPage />
           </Route>
           <Route path="events/:id">
