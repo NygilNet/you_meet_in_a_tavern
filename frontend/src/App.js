@@ -18,7 +18,6 @@ function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    // add logic to restore the group state and event state
     dispatch(groupActions.restoreGroups());
     dispatch(eventActions.restoreEvents());
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -47,7 +46,7 @@ function App() {
           <Route exact path="/events">
             <EventsListPage />
           </Route>
-          <Route path="events/:id">
+          <Route path="/events/:id">
             <EventDetailsPage />
           </Route>
           <Route path="/groups/:id/events/new">
