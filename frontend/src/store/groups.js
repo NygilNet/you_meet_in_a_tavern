@@ -1,8 +1,16 @@
 import { csrfFetch } from "./csrf";
 
+const RESTORE_GROUP = 'groups/restoreGroup';
 const SET_GROUP = 'groups/setGroup';
 const GET_GROUP = 'groups/getGroup';
 const REMOVE_GROUP = 'groups/removeGroup';
+
+const restoreGroup = (groups) => {
+    return {
+        type: RESTORE_GROUP,
+        payload: groups
+    };
+};
 
 const setGroup = (group) => {
     return {
@@ -18,6 +26,11 @@ const getGroup = (group) => {
     };
 };
 
+const normalizeData = (array) => {
+    const obj = {};
+    array.forEach(o => obj[o.id] = o);
+    return obj;
+}
 
 const removeGroup = (id) => {
     return {
@@ -25,6 +38,15 @@ const removeGroup = (id) => {
         payload: id
     };
 };
+
+export const restoreGroups = () => async (dispatch) => {
+    const response = await csrfFetch(`/api/groups`);
+    const data = await response.json();
+
+    const normalizeGroups = normalizeData(data);
+
+    dispatch(restoreGroup(normalizeGroups))
+}
 
 export const deleteGroup = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/groups/${id}`, {
@@ -129,6 +151,10 @@ const initialState = { allGroups, singleGroup: {} }
 const groupReducer = (state = initialState, action) => {
     let newState;
     switch(action.type) {
+        case RESTORE_GROUP:
+            newState = {...state};
+            newState.allGroups = action.payload;
+            return newState;
         case SET_GROUP:
             newState = {...state};
             let newAllGroups = { ...newState.allGroups}

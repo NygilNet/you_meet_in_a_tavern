@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
+import * as groupActions from "./store/groups";
+import * as eventActions from "./store/events";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
 import GroupsListPage from "./components/GroupsListPage";
@@ -16,6 +18,8 @@ function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
+    // add logic to restore the group state and event state
+    dispatch(groupActions.restoreGroups());
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
