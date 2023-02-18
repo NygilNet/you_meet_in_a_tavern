@@ -32,7 +32,7 @@ function EventDetailsPage() {
     const groupPreviewImg = group.GroupImages?.find(img => img?.preview)?.url;
     const isOrganizer = userId === group?.organizerId;
 
-    if(!Object.values(event)[0]) return null;
+    if(!Object.values(event)[0] || !Object.values(group)[0]) return null;
 
     return (
         <div className='event-details-container'>
