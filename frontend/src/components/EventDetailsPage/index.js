@@ -3,6 +3,8 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleEvent } from '../../store/events';
 import { getSingleGroup } from '../../store/groups';
+import OpenModalButton from '../OpenModalButton';
+import DeleteEventModal from '../DeleteEventModal';
 import './EventDetailsPage.css';
 
 function EventDetailsPage() {
@@ -102,7 +104,10 @@ function EventDetailsPage() {
                                 {isOrganizer ? (
                                     <div className='event-details-card-info-details-organizer-buttons'>
                                         <button>Update</button>
-                                        <button>Delete</button>
+                                        <OpenModalButton
+                                        buttonText="Delete"
+                                        modalComponent={<DeleteEventModal eventId={event.id} groupId={event.groupId} />}
+                                        />
                                     </div>
                                 ) : null }
                             </div>

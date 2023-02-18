@@ -7,7 +7,6 @@ import './DeleteGroupModal.css';
 
 function DeleteGroupModal({ groupId }) {
 
-    console.log(groupId);
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
