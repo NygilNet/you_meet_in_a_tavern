@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import OpenModalButton from '../OpenModalButton'
 import SignupFormModal from '../SignupFormModal';
 import './LandingPage.css';
 
@@ -91,8 +91,8 @@ function LandingPage() {
                     </div>
                 </section>
                 <section className='landing-section-4'>
-                    <OpenModalMenuItem
-                    itemText="Join Meetup"
+                    <OpenModalButton
+                    buttonText="Join Meetup"
                     onItemClick={closeMenu}
                     modalComponent={<SignupFormModal />}
                     />
