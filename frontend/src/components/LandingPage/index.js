@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import OpenModalButton from '../OpenModalButton'
@@ -6,30 +6,6 @@ import SignupFormModal from '../SignupFormModal';
 import './LandingPage.css';
 
 function LandingPage() {
-
-    const [showMenu, setShowMenu] = useState(false);
-    const ulRef = useRef();
-
-    const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
-    }
-
-    useEffect(() => {
-        if (!showMenu) return;
-
-        const closeMenu = (e) => {
-          if (!ulRef.current.contains(e.target)) {
-            setShowMenu(false);
-          }
-        };
-
-        document.addEventListener('click', closeMenu);
-
-        return () => document.removeEventListener("click", closeMenu);
-      }, [showMenu]);
-
-      const closeMenu = () => setShowMenu(false);
 
     const user = useSelector(state => state.session.user);
 
@@ -67,7 +43,7 @@ function LandingPage() {
                     <div className='landing-3-card'>
                         <img
                         src="https://images.unsplash.com/photo-1587573088697-b4fa10460683?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80"
-                        alt="event booking image"
+                        alt="event booking"
                         style={{height: '150px', width: '250px'}}
                         />
                         <NavLink to="/events">Find an event</NavLink>
@@ -76,7 +52,7 @@ function LandingPage() {
                     <div className='landing-3-card'>
                         <img
                         src="https://images.unsplash.com/photo-1622037022824-0c71d511ef3c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                        alt="group image"
+                        alt="group"
                         style={{height: '150px', width: '250px'}}
                         />
                         {
@@ -93,7 +69,6 @@ function LandingPage() {
                 <section className='landing-section-4'>
                     <OpenModalButton
                     buttonText="Join Meetup"
-                    onItemClick={closeMenu}
                     modalComponent={<SignupFormModal />}
                     />
                 </section>

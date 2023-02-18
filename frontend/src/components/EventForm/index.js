@@ -16,7 +16,7 @@ function EventForm({ event, formType }) {
         dispatch(
             getSingleGroup(id)
         )
-    }, [])
+    }, [dispatch, id])
 
     const userId = useSelector(state => state.session.user.id)
     const group = useSelector(state => state.groups.singleGroup);
