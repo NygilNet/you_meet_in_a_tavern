@@ -18,8 +18,8 @@ function DeleteEventModal({ eventId, groupId }) {
     }
 
     return (
-        <div>
-            <h2>Confirm Delete</h2>
+        <div className='event-delete-modal'>
+            <p id='title'>Confirm Delete</p>
             <p>Are you sure you want to remove this event?</p>
             <button id='confirm' onClick={handleDelete}>{`Yes (Delete Event)`}</button>
             <button id='deny' onClick={closeModal}>{`No (Keep Event)`}</button>

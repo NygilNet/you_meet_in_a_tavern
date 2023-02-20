@@ -1,0 +1,6 @@
+.event-delete-modal {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+}

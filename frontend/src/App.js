@@ -52,6 +52,7 @@ function App() {
           <Route path="/groups/:id/events/new">
             <CreateEventForm />
           </Route>
+          <Route>Page Not Found</Route>
         </Switch>
       )}
     </>

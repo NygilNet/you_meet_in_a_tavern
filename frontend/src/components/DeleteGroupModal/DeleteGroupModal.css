@@ -1,0 +1,24 @@
+.group-delete-modal {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+
+}
+
+button#confirm {
+    margin: 10px;
+    height: 30px;
+
+    background-color: #ff5a5f;
+    color: #ffffff;
+}
+
+button#deny {
+    margin: 10px;
+    height: 30px;
+
+    background-color: #999999;
+    color: #ffffff;
+}

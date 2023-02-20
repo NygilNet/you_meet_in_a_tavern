@@ -80,13 +80,14 @@ function EventForm({ event, formType }) {
         <div className='event-form-container'>
             <form onSubmit={handleSubmit}>
                 {formType === 'Create Event' && (
-                    <h2>Create an event for {group.name}</h2>
+                    <p id="title">Create an event for {group.name}</p>
                 )}
                 <div className='event-form-name'>
                     <p>What is the name of your event?</p>
                     <input
                     type="text"
                     placeholder='Event Name'
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={name}
                     onChange={e => setName(e.target.value)}
                     />
@@ -95,6 +96,7 @@ function EventForm({ event, formType }) {
                 <div className='event-form-physical-info'>
                     <p>Is this an in person or online event?</p>
                     <select
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={type}
                     onChange={e => setType(e.target.value)}
                     >
@@ -106,6 +108,7 @@ function EventForm({ event, formType }) {
 
                     <p>Is this event private or public?</p>
                     <select
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={pri}
                     onChange={e => setPri(e.target.value)}
                     >
@@ -116,21 +119,21 @@ function EventForm({ event, formType }) {
                     {attemptedSubmit && errors.pri && (<div id='error'>{errors.pri}</div>)}
 
                     <p>What is the price for your event?</p>
-                    <input type="" value={price} onChange={e => setPrice(e.target.value)} placeholder="0" />
+                    <input type="" style={{backgroundColor: '#e8f0fe', width: '300px'}} value={price} onChange={e => setPrice(e.target.value)} placeholder="0" />
                     {attemptedSubmit && errors.price && (<div id='error'>{errors.price}</div>)}
                 </div>
                 <div className='event-form-time-info'>
                     <p>When does your event start?</p>
-                    <input value={startDate} type="datetime-local" onChange={e => setStartDate(e.target.value)} placeholder="MM/DD/YYYY HH:mm AM" />
+                    <input value={startDate} style={{backgroundColor: '#e8f0fe', width: '300px'}} type="datetime-local" onChange={e => setStartDate(e.target.value)} placeholder="MM/DD/YYYY HH:mm AM" />
                     {attemptedSubmit && errors.startDate && (<div id='error'>{errors.startDate}</div>)}
 
                     <p>When does your event end?</p>
-                    <input value={endDate} type="datetime-local" onChange={e => setEndDate(e.target.value)} placeholder="MM/DD/YYY HH:mm PM" />
+                    <input value={endDate} style={{backgroundColor: '#e8f0fe', width: '300px'}} type="datetime-local" onChange={e => setEndDate(e.target.value)} placeholder="MM/DD/YYY HH:mm PM" />
                     {attemptedSubmit && errors.endDate && (<div id='error'>{errors.endDate}</div>)}
                 </div>
                 <div className='event-form-image'>
                     <p>Please add in image url for your event below:</p>
-                    <input value={imgUrl} onChange={e => setImgUrl(e.target.value)} placeholder='Image URL' />
+                    <input value={imgUrl} style={{backgroundColor: '#e8f0fe', width: '300px'}} onChange={e => setImgUrl(e.target.value)} placeholder='Image URL' />
                     {attemptedSubmit && errors.imgUrl && (<div id='error'>{errors.imgUrl}</div>)}
                 </div>
                 <div className='event-form-description'>
@@ -139,12 +142,13 @@ function EventForm({ event, formType }) {
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     placeholder='Please include at least 30 characters'
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     rows={6}
                     cols={42}
                     ></textarea>
                     {attemptedSubmit && errors.description && (<div id='error'>{errors.description}</div>)}
                 </div>
-                <input type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
+                <input className="event-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
             </form>
         </div>
     )
