@@ -72,8 +72,8 @@ function EventDetailsPage() {
                                 }
                             </div>
                             <div className='event-details-card-info-group-info'>
-                                <p>{group.name}</p>
-                                <p>{group.type}</p>
+                                <p style={{margin: '0px'}}>{group.name}</p>
+                                <p style={{margin: '0px'}}>{group.type}</p>
                             </div>
                         </div>
                         <div className='event-details-card-info-details'>
@@ -82,11 +82,11 @@ function EventDetailsPage() {
                                 <div>
                                     <div className='event-details-card-info-details-time-start'>
                                         <div>START</div>
-                                        <p>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</p>
+                                        <p style={{margin: '0px'}}>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</p>
                                     </div>
                                     <div className='event-details-card-info-details-time-end'>
                                         <div>END</div>
-                                        <p>{`${new Date(event.endDate).getFullYear()}-${(new Date(event.endDate).getMonth())+1}-${new Date(event.endDate).getDate()} • ${new Date(event.endDate).getHours()}:${new Date(event.endDate).getMinutes()}`}</p>
+                                        <p style={{margin: '0px'}}>{`${new Date(event.endDate).getFullYear()}-${(new Date(event.endDate).getMonth())+1}-${new Date(event.endDate).getDate()} • ${new Date(event.endDate).getHours()}:${new Date(event.endDate).getMinutes()}`}</p>
                                     </div>
                                 </div>
                             </div>
