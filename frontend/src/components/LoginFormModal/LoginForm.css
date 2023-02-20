@@ -56,4 +56,5 @@ button#log-in-button:disabled {
     background-color: #ffffff;
     color: #cccccc;
     border-color: #cccccc;
+    cursor: default;
 }

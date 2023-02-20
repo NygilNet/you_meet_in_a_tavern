@@ -1,13 +1,43 @@
+.list-header-container {
+    width: 544px;
+
+    border-bottom: 2px solid #cccccc;
+}
+
+#list-header-links {
+    display: flex;
+}
+
 a#current-page {
     pointer-events: none;
     cursor: default;
     text-decoration: underline;
     color: teal;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
 
 }
 
 a#active-link {
     text-decoration: none;
     color: gray;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
 
+}
+
+#list-header-caption > p{
+    font-size: 14px;
+}
+
+.list-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.list-item-info-about{
+    overflow: hidden;
 }

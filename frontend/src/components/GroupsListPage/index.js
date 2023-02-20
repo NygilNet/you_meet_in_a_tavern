@@ -15,7 +15,7 @@ function GroupsListPage() {
             <div className='groups-list'>
                 {
                     groups.map(group => (
-                        <NavLink to={`/groups/${group.id}`} key={group.id} style={{textDecoration: 'none'}}>
+                        <NavLink to={`/groups/${group.id}`} key={group.id} style={{textDecoration: 'none', color: '#000000'}}>
                             <div className='groups-list-item'>
                                 <div className='list-item-image'>
                                     {
@@ -33,7 +33,7 @@ function GroupsListPage() {
                                 </div>
                                 <div className='list-item-info'>
                                     <div className='list-item-info-name'>
-                                        {group.name}
+                                        <p id='title' style={{padding: '0px', margin: '0px'}}>{group.name}</p>
                                     </div>
                                     <div className='list-item-info-location'>
                                         {

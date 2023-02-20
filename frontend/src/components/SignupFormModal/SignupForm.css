@@ -9,4 +9,5 @@ button#sign-up-button:disabled {
     background-color: #ffffff;
     color: #cccccc;
     border-color: #cccccc;
+    cursor: default;
 }
