@@ -1,0 +1,12 @@
+button#sign-up-button{
+    width: 100%;
+    background-color: #ff5a5f;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button#sign-up-button:disabled {
+    background-color: #ffffff;
+    color: #cccccc;
+    border-color: #cccccc;
+}

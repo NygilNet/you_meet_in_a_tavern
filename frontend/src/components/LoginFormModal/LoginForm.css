@@ -1,0 +1,59 @@
+div#modal-content{
+    border-radius: 15px;
+    width: 35%;
+}
+
+.log-in-modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.log-in-title{
+    text-align: center;
+}
+
+.log-in-form{
+    display: flex;
+    flex-direction: column;
+
+    margin: 20px;
+    height: 200px;
+}
+
+.demo-log-in {
+    color: #00525e;
+    cursor: pointer;
+    text-align: center;
+}
+
+.demo-log-in:hover {
+    text-decoration: underline;
+}
+
+.log-in-form-elements {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 100%;
+}
+
+label,input{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    align-self: center;
+}
+
+button#log-in-button{
+    width: 100%;
+    background-color: #ff5a5f;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button#log-in-button:disabled {
+    background-color: #ffffff;
+    color: #cccccc;
+    border-color: #cccccc;
+}

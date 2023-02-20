@@ -45,7 +45,7 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      <p id="title" style={{textAlign: 'center'}}>Sign Up</p>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
@@ -55,6 +55,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -64,6 +65,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -73,6 +75,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={firstName}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
@@ -82,6 +85,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={lastName}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
@@ -91,6 +95,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -100,12 +105,14 @@ function SignupFormModal() {
           <input
             type="password"
             value={confirmPassword}
+            style={{backgroundColor: '#e8f0fe'}}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
         <button
         type="submit"
+        id="sign-up-button"
         disabled={validSignIn ? false : true} >
           Sign Up</button>
       </form>
