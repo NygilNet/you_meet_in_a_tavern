@@ -82,43 +82,45 @@ function GroupForm({ group, formType }) {
             <form onSubmit={handleSubmit}>
                     {formType==="Create group"? (
                 <div className='group-form-instructions'>
-                    <h3>START A NEW GROUP</h3>
-                    <h2>We'll walk you through a few steps to build your local community</h2>
+                    <p id='title' style={{margin: '0px', color: '#00525e'}}>START A NEW GROUP</p>
+                    <p id='subtitle' style={{margin: '0px'}}>We'll walk you through a few steps to build your local community</p>
                 </div>
                     ) : (
                 <div className='group-form-instructions'>
-                    <h3>UPDATE YOUR GROUP'S INFORMATION</h3>
-                    <h2>We'll walk you through a few steps to update your group's information</h2>
+                    <p id='title' style={{margin: '0px', color: '#00525e'}}>UPDATE YOUR GROUP'S INFORMATION</p>
+                    <p id='subtitle' style={{margin: '0px'}}>We'll walk you through a few steps to update your group's information</p>
                 </div>
                     )}
 
                 <div className='group-form-set-location'>
-                    <h2>Set your group's location</h2>
-                    <p htmlFor='location'>Meetup groups meet locally, in person, and online. We'll connect you with people in your area, and more can join you online.</p>
+                    <p id='title' style={{margin: '0px'}}>Set your group's location</p>
+                    <p htmlFor='location' style={{margin: '0px'}}>Meetup groups meet locally, in person, and online. We'll connect you with people in your area, and more can join you online.</p>
                     <input
                     type="text"
                     id='location'
                     placeholder='City, STATE'
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={location}
                     onChange={e => setLocation(e.target.value)}
                     />
                     {attemptedSubmit && errors.location && (<div id='error'>{errors.location}</div>)}
                 </div>
                 <div className='group-form-set-name'>
-                    <h2>What will your group's name be?</h2>
-                    <p htmlFor='name'>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</p>
+                    <p id='title' style={{margin: '0px'}}>What will your group's name be?</p>
+                    <p htmlFor='name' style={{margin: '0px'}}>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</p>
                     <input
                     type="text"
                     id="name"
                     placeholder='What is your group name?'
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={name}
                     onChange={e => setName(e.target.value)}
                     />
                     {attemptedSubmit && errors.name && (<div id='error'>{errors.name}</div>)}
                 </div>
                 <div className='group-form-set-about'>
-                    <h2>Describe the purpose of your group</h2>
-                    <p>People will see this when we promote your group, but you'll be able to add to it later, too.</p>
+                    <p id='title' style={{margin: '0px'}}>Describe the purpose of your group</p>
+                    <p style={{margin: '0px'}}>People will see this when we promote your group, but you'll be able to add to it later, too.</p>
 
                     <ol>
                         <li>What's the purpose of the group?</li>
@@ -131,6 +133,7 @@ function GroupForm({ group, formType }) {
                     rows={6}
                     cols={36}
                     placeholder='Please write at least 30 characters'
+                    style={{backgroundColor: '#e8f0fe', width: '300px'}}
                     value={about}
                     onChange={e => setAbout(e.target.value)}
                     ></textarea>
@@ -138,10 +141,11 @@ function GroupForm({ group, formType }) {
 
                 </div>
                 <div className='group-form-final-sets'>
-                    <h2>Final steps...</h2>
-                    <p htmlFor='type'>Is this an in person or online group?</p>
+                    <p id='title' style={{margin: '0px'}}>Final steps...</p>
+                    <p htmlFor='type' style={{margin: '0px'}}>Is this an in person or online group?</p>
                     <select
                     id='type'
+                    style={{backgroundColor: '#e8f0fe'}}
                     value={type}
                     onChange={e => setType(e.target.value)}
                     >
@@ -151,8 +155,10 @@ function GroupForm({ group, formType }) {
                     </select>
                     {attemptedSubmit && errors.type && (<div id='error'>{errors.type}</div>)}
 
-                    <p htmlFor='pri'>Is this group private or public?</p>
-                    <select id='pri'
+                    <p htmlFor='pri' style={{margin: '0px'}}>Is this group private or public?</p>
+                    <select
+                    id='pri'
+                    style={{backgroundColor: '#e8f0fe'}}
                     value={pri}
                     onChange={e => setPri(e.target.value)}
                     >
@@ -162,18 +168,25 @@ function GroupForm({ group, formType }) {
                     </select>
                     {attemptedSubmit && errors.pri && (<div id='error'>{errors.pri}</div>)}
 
-                    <p htmlFor='imgUrl'>Please add an image url for your group below:</p>
-                    <input
-                    type="text"
-                    id='imgUrl'
-                    placeholder='Image Url'
-                    value={previewImg}
-                    onChange={e => setPreviewImg(e.target.value)}
-                    />
-                    {attemptedSubmit && errors.previewImg && (<div id='error'>{errors.previewImg}</div>)}
+                    {formType === 'Update group' ? (<div>Update group image feature coming soon</div>) : (
+                        <>
+                            <p htmlFor='imgUrl' style={{margin: '0px'}}>Please add an image url for your group below:</p>
+                            <input
+                            type="text"
+                            id='imgUrl'
+                            style={{backgroundColor: '#e8f0fe', width: '300px'}}
+                            placeholder='Image Url'
+                            value={previewImg}
+                            onChange={e => setPreviewImg(e.target.value)}
+                            />
+                            {attemptedSubmit && errors.previewImg && (<div id='error'>{errors.previewImg}</div>)}
+                        </>
+                    )}
+
+
                 </div>
                 <div>
-                    <input type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
+                    <input className="group-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
                 </div>
             </form>
 
