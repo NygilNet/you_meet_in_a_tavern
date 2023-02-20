@@ -42,10 +42,12 @@ function ProfileButton({ user }) {
 
 
   const viewGroupsButton = () => {
+    closeMenu();
     history.push('/groups');
   }
 
   const viewEventsButton = () => {
+    closeMenu();
     history.push('/events');
   }
 

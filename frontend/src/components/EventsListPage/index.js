@@ -6,7 +6,23 @@ import './EventsListPage.css';
 
 function EventsListPage() {
 
-    const events = useSelector(state => Object.values(state.events.allEvents));
+    const allEvents = useSelector(state => Object.values(state.events.allEvents));
+
+    let upComingEvents = [];
+    let pastEvents = [];
+
+    allEvents.forEach(event => {
+        if (Date.parse(event.startDate) > Date.parse(Date())) {
+            upComingEvents.push(event);
+        } else {
+            pastEvents.push(event);
+        }
+    });
+
+    upComingEvents.sort((a,b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+    pastEvents.sort((a,b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+
+    const events = [...upComingEvents, ...pastEvents];
 
     return (
        <div className='events-list-page-container'>
@@ -31,12 +47,12 @@ function EventsListPage() {
                                     }
                                 </div>
                                 <div className='events-list-item-details'>
-                                    <div className='events-list-item-time'></div>
-                                    <div className='events-list-item-title'>{event.name}</div>
-                                    <div className='events-list-item-location'></div>
+                                    <div className='events-list-item-time'>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
+                                    <div className='events-list-item-title'><p id='subtitle' style={{margin: '0px'}}>{event.name}</p></div>
+                                    <div className='events-list-item-location'>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
                                 </div>
                             </div>
-                            <div>{event.description}</div>
+                            <div style={{overflow: 'hidden'}}>{event.description}</div>
                         </div>
                     </NavLink>
                 ))

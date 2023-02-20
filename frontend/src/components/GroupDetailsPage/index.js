@@ -41,8 +41,8 @@ function GroupDetailsPage() {
         }
     })
 
-    upComingEvents.sort((a,b) => a.startDate - b.startDate);
-    pastEvents.sort((a,b) => a.startDate - b.startDate);
+    upComingEvents.sort((a,b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+    pastEvents.sort((a,b) => Date.parse(a.startDate) - Date.parse(b.startDate));
 
 
     if (!Object.values(group)[0]) return null;
