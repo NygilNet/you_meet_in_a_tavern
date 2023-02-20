@@ -68,7 +68,7 @@ function GroupDetailsPage() {
                     <div className='group-info-info'>
                         <div className='group-info-details'>
                             <div className='group-info-name'>
-                                {group.name}
+                                <p id='subtitle' style={{margin: '0px'}}>{group.name}</p>
                             </div>
                             <div className='group-info-location'>
                                 {
@@ -108,23 +108,24 @@ function GroupDetailsPage() {
             <div className='group-details-extra-info'>
                 <div className='extra-info-group-details'>
                     <div className='organizer-details'>
-                        <h2>Organizer</h2>
+                        <p id='subtitle'>Organizer</p>
                         <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
                     </div>
                     <div className='what-were-about'>
-                        <h2>What we're about</h2>
+                        <p id='subtitle'>What we're about</p>
                         <p>{group.about}</p>
                     </div>
                 </div>
             <div className='group-details-events'>
                 { upComingEvents[0] ? (
                     <div className='group-events-upcoming'>
-                        <h2>Upcoming Events {`(${upComingEvents.length})`}</h2>
+                        <p id='subtitle'>Upcoming Events {`(${upComingEvents.length})`}</p>
                         {
                             upComingEvents.map(event => (
-                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name} style={{textDecoration: 'none'}}>
+                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name}>
                                     <div className='group-events-card'>
-                                        <div className='group-events-card-img'>
+                                        <div className='group-events-card-top'>
+                                            <div className='group-events-card-img'>
                                             {event.previewImage === 'no preview image provided' ? 'No preview image provided' : (
                                                 <img
                                                 alt={event.description}
@@ -135,16 +136,18 @@ function GroupDetailsPage() {
                                         </div>
                                         <div className='group-events-card-info'>
                                             <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
-                                            <div>{event.name}</div>
+                                            <div><p id='subtitle'>{event.name}</p></div>
                                             <div>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
                                         </div>
-                                    </div>
+                                        </div>
+
                                     <div className='group-events-card-description'>{event.description}</div>
+                                    </div>
                                 </NavLink>
                             ))
                         }
                     </div>
-                ) : null }
+                ) : 'No upcoming events yet' }
                 { pastEvents[0] ? (
                     <div className='group-events-past'>
                         <h2>Past Events {`(${pastEvents.length})`}</h2>

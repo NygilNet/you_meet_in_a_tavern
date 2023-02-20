@@ -12,6 +12,7 @@
 
 .group-details-group-info{
     display: flex;
+    padding: 10px 0px;
 }
 
 .group-info-image {
@@ -42,15 +43,66 @@
     background-color: lightgray;
 
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    align-items: center;
 }
 
 .extra-info-group-details {
-    width: 80vw;
+    width: 80%;
 }
 
 button#viewer-button{
     background-color: red;
     color: white;
+}
+
+.group-details-events{
+    width: 80%;
+}
+
+.group-events-card-background {
+    display: flex;
+    width: 500px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.group-events-card{
+    background-color: #ffffff;
+    border-radius: 15px;
+    width: 500px;
+    min-height: 250px;
+    margin: 10px;
+}
+
+.group-events-card-top {
+    display: flex;
+}
+
+.group-events-card-img {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    height: 127px;
+    width: 178px;
+
+    padding: 10px 0px 10px 10px;
+}
+
+.group-events-card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 0px;
+}
+
+.group-events-card-description {
+    overflow: hidden;
+    padding: 0px 10px;
+}
+
+.organizer-button > button {
+    background-color: #999999;
+    margin: 5px;
 }
