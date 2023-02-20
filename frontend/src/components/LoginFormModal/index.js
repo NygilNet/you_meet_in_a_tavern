@@ -24,6 +24,11 @@ function LoginFormModal() {
       );
   };
 
+  const demo = (e) => {
+    dispatch(sessionActions.demoLogin());
+    closeModal()
+  }
+
   return (
     <>
       <h1>Log In</h1>
@@ -57,6 +62,7 @@ function LoginFormModal() {
           Log In
           </button>
       </form>
+      <div onClick={demo} style={{textDecoration: 'underline', color: '#00525e', cursor: 'pointer'}}>Demo Login</div>
     </>
   );
 }

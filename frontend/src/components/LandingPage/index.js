@@ -13,7 +13,7 @@ function LandingPage() {
             <div className='landing-section-container'>
                 <section className='landing-section-1'>
                     <div className='landing-1-left'>
-                        <h1>The people platform— Where interests become friendships</h1>
+                        <p id="title">The people platform— Where interests become friendships</p>
                         <p id='intro-text'>Bacon ipsum dolor amet ham hock burgdoggen strip steak, swine sausage chicken kielbasa t-bone porchetta. Biltong buffalo pig shankle sausage chislic beef ribs pork chop chuck ribeye boudin turducken sirloin t-bone jerky. Beef ribs fatback sausage frankfurter biltong ground round swine drumstick pastrami chislic picanha pig bacon tongue. T-bone sirloin tongue beef bresaola meatloaf. Capicola ground round brisket, cow ham hock alcatra beef buffalo strip steak leberkas kielbasa drumstick. Pork pork loin leberkas chicken beef, andouille shank ball tip.</p>
                     </div>
                     <div className='landing-1-right'>
@@ -26,7 +26,7 @@ function LandingPage() {
                 </section>
                 <section className='landing-section-2'>
                     <div className='landing-2'>
-                        <h2>How Meetup works</h2>
+                        <p id="subtitle">How Meetup works</p>
                         <p id='subtitle-caption'>Buffalo porchetta kevin kielbasa meatloaf venison tail sausage ham. Chislic tenderloin short loin, kevin sausage frankfurter rump andouille.</p>
                     </div>
                 </section>
@@ -57,9 +57,9 @@ function LandingPage() {
                         />
                         {
                             user ? (
-                                <NavLink to="/groups/new">Start a new group</NavLink>
+                                <NavLink to="/groups/new">Start a group</NavLink>
                             ) : (
-                                <p id='no-user-new-group'>Start a new group</p>
+                                <p id='no-user-new-group'>Start a group</p>
                             )
                         }
 

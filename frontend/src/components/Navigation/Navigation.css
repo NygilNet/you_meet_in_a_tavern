@@ -1,3 +1,8 @@
+.root {
+    width: 100vw;
+    height: 100vh;
+}
+
 .hidden {
     display: none
 }
@@ -5,6 +10,82 @@
 .header-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    border-bottom: solid 1px gray
+    width: 100%;
+    height: 70px;
+    padding: 20px 20px;
+
+    border-bottom: solid 2px #cccccc;
+}
+
+.navigation-right-side {
+    width: auto;
+    padding: 0 20px;
+}
+
+.header-logo{
+    display: flex;
+    align-items: center;
+}
+
+a#logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff5a5f;
+    text-decoration: none;
+    padding: 10px;
+}
+
+a#new-group {
+    font-size: 14px;
+    text-decoration: none;
+    color: #00525e;
+}
+
+button#profile {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    cursor: pointer;
+
+    border: none;
+    outline: none;
+
+    text-align: center;
+}
+
+.fa-user-circle {
+    padding: 5px;
+    color: #ff5a5f;
+}
+
+.profile-dropdown {
+    list-style: none;
+    position: absolute;
+    right: 10px;
+    background-color: #ffffff;
+    border: solid 1px #000000;
+    width: 190px;
+
+    padding: 0px;
+}
+
+button#profile-logout {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #cccccc;
+
+    height: 21px;
+    width: 155px;
+
+    cursor: pointer;
+    text-align: center;
+}
+
+li#modal-menu-item {
+    cursor: pointer;
+}
+
+button#profile-logout{
+    width: 190px;
 }

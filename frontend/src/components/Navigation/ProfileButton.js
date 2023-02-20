@@ -40,10 +40,6 @@ function ProfileButton({ user }) {
     history.push('/');
   };
 
-  const demo = (e) => {
-    dispatch(sessionActions.demoLogin());
-    closeMenu();
-  }
 
   const viewGroupsButton = () => {
     history.push('/groups');
@@ -56,24 +52,24 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
+    <div className="navigation-right-side">
       {user ? (
       <>
-      <NavLink to="/groups/new">Start a new group</NavLink>
+      <NavLink to="/groups/new" id="new-group">Start a new group</NavLink>
       </>) : null }
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button onClick={openMenu} id="profile">
+        <i className="fas fa-user-circle fa-2x" />{showMenu ? "∧" : "∨"}
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        <li onClick={viewGroupsButton}>View Groups</li>
-        <li onClick={viewEventsButton}>Find an event</li>
+        <li onClick={viewGroupsButton} style={{cursor: 'pointer'}}>View Groups</li>
+        <li onClick={viewEventsButton} style={{cursor: 'pointer'}}>Find an event</li>
         {user ? (
           <>
             <li>Hello, "{user.firstName}"</li>
             <li>{user.username}</li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout} id="profile-logout">Log Out</button>
             </li>
           </>
         ) : (
@@ -88,11 +84,10 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-            <li onClick={demo}>Demo Login</li>
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .landing-section-1{
     display: flex;
-    width: 100vw;
+    width: 80%;
 }
 
 .landing-1-left{
@@ -18,6 +19,8 @@
 }
 
 .landing-1-right{
+    display: flex;
+    justify-content: center;
     width: 50%;
 }
 
@@ -26,7 +29,12 @@
 }
 
 #intro-text{
-    font-size: smaller;
+    font-size: 14px;
+}
+
+.landing-section-2 {
+
+    width: 80%;
 }
 
 .landing-2 {
@@ -36,11 +44,15 @@
 }
 
 #subtitle-caption{
-    font-size: x-small;
+    font-size: 14px;
+    width: 25%;
+    text-align: center;
 }
 
 .landing-section-3 {
     display: flex;
+    width: 80%;
+    justify-content: center;
 }
 
 .landing-3-card{
@@ -62,5 +74,50 @@
 
 .landing-section-4{
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 80%;
+}
+
+.landing-section-4 > button {
+    cursor: pointer;
+}
+
+p#title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+p#subtitle {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.landing-section-4 > button {
+    background-color: hsl(0, 0%, 80%);
+    color: #ffffff;
+
+    width: 120px;
+    height: 30px;
+}
+
+.landing-3-card > a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #00525e
+}
+
+.landing-3-card > a:hover {
+    text-decoration: underline;
+}
+
+p#no-user-new-group{
+    font-size: 18px;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.card-text{
+    text-align: center;
 }

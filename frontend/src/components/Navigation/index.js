@@ -10,7 +10,7 @@ function Navigation({ isLoaded }){
   return (
     <div className='header-container'>
       <div className='header-logo'>
-        <NavLink exact to="/">You Meet In A Tavern</NavLink>
+        <NavLink exact to="/" id="logo">You Meet In A Tavern</NavLink>
       </div>
       {isLoaded && (
         <div className='header-profile-button'>
