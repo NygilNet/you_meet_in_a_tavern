@@ -2,7 +2,7 @@
 
 ## Project Description
 
-You Meet In A Tavern, a MeetUp clone, is an app where you form groups and events, specifically through a TTRPG lens.
+You Meet In A Tavern, a MeetUp clone, is an app where you form groups and events, specifically through a tabletop roleplaying game (TTRPG) lens.
 
 ## Deployed Live Link
 
