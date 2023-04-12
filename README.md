@@ -62,7 +62,11 @@ You Meet In A Tavern, a MeetUp clone, is an app where you form groups and events
 
 ## Screenshots
 
+![you_meet_in_a_tavern_home](https://user-images.githubusercontent.com/109548330/231595937-742b2706-6d54-476c-84d2-4c9d5476639b.jpg)
 
+![you_meet_in_a_tavern_list_events](https://user-images.githubusercontent.com/109548330/231596879-8f6b36df-39d8-4562-9d53-1910bfe8e595.jpg)
+
+![you_meet_in_a_tavern_group](https://user-images.githubusercontent.com/109548330/231596889-08129030-a5e5-4575-8322-2737bc133174.jpg)
 
 ## Future Implementation Goals
 
