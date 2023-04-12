@@ -93,7 +93,7 @@ function EventDetailsPage() {
                             <div className='event-details-card-info-details-price'>
                                 <div id='event-details-card-logo'><i class="fa-solid fa-dollar-sign" /></div>
                                 <div className='event-details-card-info-details-price-cost'>
-                                    <p>{event.price === 0 ? 'FREE' : event.price }</p>
+                                    <p>{ +event.price === 0 ? 'FREE' : event.price }</p>
                                 </div>
                             </div>
                             <div className='event-details-card-info-details-type'>
