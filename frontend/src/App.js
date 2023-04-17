@@ -56,10 +56,10 @@ function App() {
             </Route>
             <Route>Page Not Found</Route>
           </Switch>
-          <Footer />
         </>
 
       )}
+      {/* <Footer /> */}
     </>
   );
 }

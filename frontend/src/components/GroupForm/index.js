@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { newGroup, editGroup } from '../../store/groups';
+import Footer from '../Footer';
 import './GroupForm.css';
 
 
@@ -78,7 +79,8 @@ function GroupForm({ group, formType }) {
     }
 
     return (
-        <div className='group-form-container'>
+        <div className='container'>
+            <div className='group-form-container'>
             <form onSubmit={handleSubmit}>
                     {formType==="Create group"? (
                 <div className='group-form-instructions'>
@@ -191,6 +193,9 @@ function GroupForm({ group, formType }) {
             </form>
 
         </div>
+        <Footer />
+        </div>
+
     );
 }
 

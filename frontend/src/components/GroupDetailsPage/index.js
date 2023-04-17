@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSingleGroup } from '../../store/groups';
 import OpenModalButton from '../OpenModalButton';
 import DeleteGroupModal from '../DeleteGroupModal';
+import Footer from '../Footer';
 import './GroupDetailsPage.css';
 
 function GroupDetailsPage() {
@@ -48,7 +49,8 @@ function GroupDetailsPage() {
     if (!Object.values(group)[0]) return null;
 
     return (
-        <div className='group-details-page-container'>
+        <div className='container'>
+            <div className='group-details-page-container'>
             <div className='group-details-page'>
                <div className='group-details-breadcrumb-link'>
                 {`<`} <NavLink to='/groups'>Groups</NavLink>
@@ -179,6 +181,9 @@ function GroupDetailsPage() {
             </div>
             </div>
         </div>
+        <Footer />
+        </div>
+
     );
 }
 

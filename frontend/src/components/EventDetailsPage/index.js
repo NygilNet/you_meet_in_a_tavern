@@ -5,6 +5,7 @@ import { getSingleEvent } from '../../store/events';
 import { getSingleGroup } from '../../store/groups';
 import OpenModalButton from '../OpenModalButton';
 import DeleteEventModal from '../DeleteEventModal';
+import Footer from '../Footer';
 import './EventDetailsPage.css';
 
 function EventDetailsPage() {
@@ -35,7 +36,8 @@ function EventDetailsPage() {
     if(!Object.values(event)[0] || !Object.values(group)[0]) return null;
 
     return (
-        <div className='event-details-container'>
+        <div className='container'>
+            <div className='event-details-container'>
             <div className='event-details-page'>
                 <div className='event-details-breadcrumb-link'>
                     {`<`} <NavLink to='/events'>Events</NavLink>
@@ -120,6 +122,9 @@ function EventDetailsPage() {
                 </div>
             </div>
         </div>
+        <Footer />
+        </div>
+
     )
 }
 

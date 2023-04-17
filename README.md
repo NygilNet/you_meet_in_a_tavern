@@ -154,3 +154,5 @@ If you have a suggestion that would make this better, please fork the repo and c
 * [Imgur](https://imgur.com)
 
 * [Render](https://render.com/)
+
+* Logo uses [Dancing Script from Google Fonts](https://fonts.google.com/specimen/Dancing+Script)
