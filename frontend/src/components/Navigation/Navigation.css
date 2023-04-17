@@ -44,8 +44,7 @@ a#new-group {
 }
 
 button#profile {
-    background-color: #ffffff;
-    border-color: #ffffff;
+    background-color: transparent;
     cursor: pointer;
 
     border: none;

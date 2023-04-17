@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import * as groupActions from "./store/groups";
 import * as eventActions from "./store/events";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import GroupsListPage from "./components/GroupsListPage";
 import GroupDetailsPage from "./components/GroupDetailsPage";
@@ -27,33 +28,37 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
-          <Route exact path="/groups">
-            <GroupsListPage />
-          </Route>
-          <Route path="/groups/new">
-            <StartGroupForm />
-          </Route>
-          <Route exact path="/groups/:id">
-            <GroupDetailsPage />
-          </Route>
-          <Route path="/groups/:id/edit">
-            <UpdateGroupForm />
-          </Route>
-          <Route exact path="/events">
-            <EventsListPage />
-          </Route>
-          <Route path="/events/:id">
-            <EventDetailsPage />
-          </Route>
-          <Route path="/groups/:id/events/new">
-            <CreateEventForm />
-          </Route>
-          <Route>Page Not Found</Route>
-        </Switch>
+        <>
+          <Switch>
+            <Route exact path="/">
+              <LandingPage />
+            </Route>
+            <Route exact path="/groups">
+              <GroupsListPage />
+            </Route>
+            <Route path="/groups/new">
+              <StartGroupForm />
+            </Route>
+            <Route exact path="/groups/:id">
+              <GroupDetailsPage />
+            </Route>
+            <Route path="/groups/:id/edit">
+              <UpdateGroupForm />
+            </Route>
+            <Route exact path="/events">
+              <EventsListPage />
+            </Route>
+            <Route path="/events/:id">
+              <EventDetailsPage />
+            </Route>
+            <Route path="/groups/:id/events/new">
+              <CreateEventForm />
+            </Route>
+            <Route>Page Not Found</Route>
+          </Switch>
+          <Footer />
+        </>
+
       )}
     </>
   );
