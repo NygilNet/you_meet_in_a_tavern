@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import OpenModalButton from '../OpenModalButton'
 import SignupFormModal from '../SignupFormModal';
+import Footer from '../Footer';
 import './LandingPage.css';
 
 function LandingPage() {
@@ -10,6 +11,7 @@ function LandingPage() {
     const user = useSelector(state => state.session.user);
 
     return (
+        <div className='container'>
             <div className='landing-section-container'>
                 <section className='landing-section-1'>
                     <div className='landing-1-left'>
@@ -73,6 +75,9 @@ function LandingPage() {
                     />
                 </section>
             </div>
+            <Footer />
+        </div>
+
         )
 }
 

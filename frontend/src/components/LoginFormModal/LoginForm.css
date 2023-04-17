@@ -46,7 +46,8 @@ label,input{
 }
 
 button#log-in-button{
-    width: 100%;
+    width: 95%;
+    height: 50px;
     background-color: #ff5a5f;
     color: #ffffff;
     cursor: pointer;

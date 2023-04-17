@@ -35,13 +35,14 @@ function LoginFormModal() {
       <form onSubmit={handleSubmit} className="log-in-form">
         <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li className="error" style={{listStyle: "none", padding: "0"}} key={idx}>{error}</li>
           ))}
         </ul>
           <div className="log-in-form-elements">
             <div>
-              <label>Username or email</label>
+              <label>Username or Email</label>
               <input
+            className="credential-input"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
@@ -52,6 +53,7 @@ function LoginFormModal() {
             <div>
               <label>Password</label>
               <input
+            className="password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -61,16 +63,17 @@ function LoginFormModal() {
             </div>
             <div>
               <button
-        type="submit"
-        id="log-in-button"
-        disabled={password.length < 6 || credential.length < 4 ? true: false}>
+              className="log-in-button"
+              type="submit"
+              id="log-in-button"
+              disabled={password.length < 6 || credential.length < 4 ? true: false}>
           Log In
           </button>
             </div>
           </div>
 
       </form>
-      <div onClick={demo} className="demo-log-in">Log in as Demo User</div>
+      <div onClick={demo} className="demo-log-in">Demo User</div>
     </div>
   );
 }

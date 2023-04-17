@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ListHeader from '../ListHeader';
+import Footer from '../Footer';
 import './GroupsListPage.css';
 
 function GroupsListPage() {
@@ -10,7 +11,8 @@ function GroupsListPage() {
     const events = useSelector(state => Object.values(state.events.allEvents));
 
     return (
-        <div className='groups-list-page-container'>
+        <div className='container'>
+            <div className='groups-list-page-container'>
             <ListHeader headerType="groups" />
             <div className='groups-list'>
                 {
@@ -57,6 +59,9 @@ function GroupsListPage() {
                 }
             </div>
         </div>
+        <Footer />
+        </div>
+
     )
 }
 

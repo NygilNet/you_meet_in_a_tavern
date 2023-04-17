@@ -52,7 +52,7 @@
 .landing-section-3 {
     display: flex;
     width: 80%;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .landing-3-card{

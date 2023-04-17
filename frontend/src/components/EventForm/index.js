@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { newEvent } from '../../store/events';
 import { getSingleGroup } from '../../store/groups';
+import Footer from '../Footer';
 
 import './EventForm.css';
 
@@ -77,7 +78,8 @@ function EventForm({ event, formType }) {
     if (group.organizerId !== userId) return history.push('/');
 
     return (
-        <div className='event-form-container'>
+        <div>
+            <div className='event-form-container'>
             <form onSubmit={handleSubmit}>
                 {formType === 'Create Event' && (
                     <p id="title">Create an event for {group.name}</p>
@@ -151,6 +153,9 @@ function EventForm({ event, formType }) {
                 <input className="event-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
             </form>
         </div>
+        <Footer />
+        </div>
+
     )
 
 }
