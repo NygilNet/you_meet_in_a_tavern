@@ -153,7 +153,6 @@ function EventForm({ event, formType }) {
                 <input className="event-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
             </form>
         </div>
-        <Footer />
         </div>
 
     )

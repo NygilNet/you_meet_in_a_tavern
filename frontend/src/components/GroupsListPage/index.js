@@ -59,7 +59,6 @@ function GroupsListPage() {
                 }
             </div>
         </div>
-        <Footer />
         </div>
 
     )
