@@ -122,7 +122,6 @@ function EventDetailsPage() {
                 </div>
             </div>
         </div>
-        <Footer />
         </div>
 
     )

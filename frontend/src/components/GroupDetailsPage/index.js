@@ -181,7 +181,6 @@ function GroupDetailsPage() {
             </div>
             </div>
         </div>
-        <Footer />
         </div>
 
     );

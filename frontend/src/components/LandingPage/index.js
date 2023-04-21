@@ -75,7 +75,6 @@ function LandingPage() {
                     />
                 </section>
             </div>
-            <Footer />
         </div>
 
         )

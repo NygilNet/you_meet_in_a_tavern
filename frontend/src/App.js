@@ -14,6 +14,7 @@ import UpdateGroupForm from "./components/GroupForm/UpdateGroupForm";
 import EventsListPage from "./components/EventsListPage";
 import EventDetailsPage from "./components/EventDetailsPage";
 import CreateEventForm from "./components/EventForm/CreateEventForm";
+import NotFound from "./components/404Page";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,12 +55,12 @@ function App() {
             <Route path="/groups/:id/events/new">
               <CreateEventForm />
             </Route>
-            <Route>Page Not Found</Route>
+            <Route><NotFound /></Route>
           </Switch>
         </>
 
       )}
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

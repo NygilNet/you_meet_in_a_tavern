@@ -25,6 +25,8 @@ function EventsListPage() {
     const events = [...upComingEvents, ...pastEvents];
 
     return (
+        <div className='container'>
+
        <div className='events-list-page-container'>
         <ListHeader headerType="events" />
         <div className='events-list'>
@@ -59,6 +61,7 @@ function EventsListPage() {
             }
         </div>
     </div>
+        </div>
     )
 }
 

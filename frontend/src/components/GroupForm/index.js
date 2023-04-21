@@ -193,7 +193,6 @@ function GroupForm({ group, formType }) {
             </form>
 
         </div>
-        <Footer />
         </div>
 
     );
