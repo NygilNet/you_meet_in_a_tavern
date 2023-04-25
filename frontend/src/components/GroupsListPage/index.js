@@ -25,9 +25,9 @@ function GroupsListPage() {
                                             <p>No image provided</p>
                                         ) : (
                                           <img
+                                    className='group-preview-image'
                                     src={group.previewImage}
                                     alt={group.about}
-                                    style={{ height: '124px', width: '178px', objectFit: 'cover'}}
                                     />
                                         )
                                     }

@@ -7,6 +7,7 @@ div#modal-content{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .log-in-title{
@@ -18,13 +19,17 @@ div#modal-content{
     flex-direction: column;
 
     margin: 20px;
-    height: 200px;
+    height: 150px;
+    width: 80%;
 }
 
 .demo-log-in {
+    align-self: center;
     color: #00525e;
     cursor: pointer;
     text-align: center;
+    margin: 20px;
+    width: 90px;
 }
 
 .demo-log-in:hover {
@@ -34,7 +39,7 @@ div#modal-content{
 .log-in-form-elements {
     display: flex;
     flex-direction: column;
-    height: fit-content;
+    height: 50%;
     width: 100%;
 }
 
@@ -46,11 +51,13 @@ label,input{
 }
 
 button#log-in-button{
-    width: 95%;
+    width: 80%;
     height: 50px;
     background-color: #ff5a5f;
     color: #ffffff;
     cursor: pointer;
+    margin-top: 5px;
+    margin-left: 35px;
 }
 
 button#log-in-button:disabled {
