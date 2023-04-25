@@ -38,6 +38,11 @@ module.exports = {
       groupId: 1,
       url: 'https://images.unsplash.com/photo-1557218351-1a230b6e5650?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
       preview: false
+    },
+    {
+      groupId: 4,
+      url: 'https://images.unsplash.com/photo-1515734392280-e60c25eb9f01?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
+      preview: true
     }
    ], {});
   },
