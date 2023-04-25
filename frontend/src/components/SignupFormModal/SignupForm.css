@@ -1,8 +1,18 @@
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 10px;
+}
+
 button#sign-up-button{
-    width: 100%;
+    align-self: center;
+    width: 80%;
     background-color: #ff5a5f;
     color: #ffffff;
     cursor: pointer;
+    margin: 5px;
+    padding: 10px;
 }
 
 button#sign-up-button:disabled {

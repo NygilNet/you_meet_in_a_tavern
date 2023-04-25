@@ -6,7 +6,7 @@ function Footer() {
     return (
         <footer>
             <div className="footer-links">
-                Check out the dev!
+                <p>Check out the dev!</p>
                 <ul>
                 <li><a href="https://github.com/NygilNet" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github fa-2x" style={{color: "#CCCCCC"}} ></i></a></li>
                 <li><a href="https://www.linkedin.com/in/nygil-nettles-dev/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin fa-2x" style={{color: "#CCCCCC"}} ></i></a></li>

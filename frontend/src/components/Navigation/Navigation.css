@@ -67,6 +67,18 @@ button#profile {
     padding: 0px;
 }
 
+.profile-dropdown > li {
+    margin: 5px 0;
+}
+
+.profile-dropdown > li:hover {
+    color: #008fa3;
+}
+
+#not-click {
+    color: #000;
+}
+
 button#profile-logout {
     outline: none;
     background-color: #ffffff;

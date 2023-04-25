@@ -46,7 +46,7 @@ function SignupFormModal() {
   return (
     <>
       <p id="title" style={{textAlign: 'center'}}>Sign Up</p>
-      <form onSubmit={handleSubmit}>
+      <form className="signup-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
