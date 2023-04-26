@@ -156,3 +156,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 * [Render](https://render.com/)
 
 * Logo uses [Dancing Script from Google Fonts](https://fonts.google.com/specimen/Dancing+Script)
+
+* [Bacon Ipsum](https://baconipsum.com/about/)
+
