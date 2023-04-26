@@ -59,6 +59,11 @@
 .list-item-info-about {
     height: 40px;
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     margin-bottom: 5px;
-    padding: 2%;
+}
+
+.list-item-info-cetera {
+    margin-bottom: 5px;
 }
