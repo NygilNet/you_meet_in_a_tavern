@@ -25,16 +25,16 @@ function GroupDetailsPage() {
 
     const userId = useSelector(state => state.session.user?.id);
     const group = useSelector(state => state.groups.singleGroup);
-    const previewImg = group.GroupImages?.find(img => img?.preview)?.url;
+    const previewImg = group?.GroupImages?.find(img => img?.preview)?.url;
     const isOrganizer = +userId === +group?.organizerId;
 
     const events = useSelector(state => Object.values(state.events.allEvents));
-    const groupEvents = events.filter(event => event.groupId === group.id);
+    const groupEvents = events.filter(event => event.groupId === group?.id);
 
     let upComingEvents = [];
     let pastEvents = [];
 
-    groupEvents.forEach(event => {
+    groupEvents?.forEach(event => {
         if (Date.parse(event.startDate) > Date.parse(Date())) {
             upComingEvents.push(event);
         } else {
@@ -46,7 +46,7 @@ function GroupDetailsPage() {
     pastEvents.sort((a,b) => Date.parse(a.startDate) - Date.parse(b.startDate));
 
 
-    if (!Object.values(group)[0]) return null;
+    if (!group) return null;
 
     return (
         <div className='container'>
@@ -60,9 +60,9 @@ function GroupDetailsPage() {
                         {
                             previewImg ? (
                                 <img
+                                className='group-info-preview-img'
                                 src={previewImg}
                                 alt={group.about}
-                                style={{ height: '320px', width: '544px', objectFit: 'cover'}}
                                 />
                             ) : 'No image provided'
                         }
@@ -70,7 +70,7 @@ function GroupDetailsPage() {
                     <div className='group-info-info'>
                         <div className='group-info-details'>
                             <div className='group-info-name'>
-                                <p id='subtitle' style={{margin: '0px'}}>{group.name}</p>
+                                <h2 id='subtitle'>{group.name}</h2>
                             </div>
                             <div className='group-info-location'>
                                 {
@@ -121,7 +121,7 @@ function GroupDetailsPage() {
             <div className='group-details-events'>
                 { upComingEvents[0] ? (
                     <div className='group-events-upcoming'>
-                        <p id='subtitle'>Upcoming Events {`(${upComingEvents.length})`}</p>
+                        <h2>Upcoming Events {`(${upComingEvents.length})`}</h2>
                         {
                             upComingEvents.map(event => (
                                 <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name}>
@@ -130,20 +130,20 @@ function GroupDetailsPage() {
                                             <div className='group-events-card-img'>
                                             {event.previewImage === 'no preview image provided' ? 'No preview image provided' : (
                                                 <img
+                                                className='group-event-card-preview-img'
                                                 alt={event.description}
                                                 src={event.previewImage}
-                                                style={{ height: '127px', width: '178px', objectFit:'cover'}}
                                                 />
                                             )}
-                                        </div>
-                                        <div className='group-events-card-info'>
-                                            <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
-                                            <div><p id='subtitle'>{event.name}</p></div>
+                                            </div>
+                                            <div className='group-events-card-info'>
+                                                <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
+                                                <div><p id='subtitle'>{event.name}</p></div>
                                             <div>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
-                                        </div>
+                                            </div>
                                         </div>
 
-                                    <div className='group-events-card-description'>{event.description}</div>
+                                        <div className='group-events-card-description'>{event.description}</div>
                                     </div>
                                 </NavLink>
                             ))
@@ -155,24 +155,27 @@ function GroupDetailsPage() {
                         <h2>Past Events {`(${pastEvents.length})`}</h2>
                         {
                             pastEvents.map(event => (
-                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name} style={{textDecoration: 'none'}}>
+                                <NavLink to={`/events/${event.id}`} className='group-events-card-background' key={event.name}>
                                     <div className='group-events-card'>
-                                        <div className='group-events-card-img'>
+                                        <div className='group-events-card-top'>
+                                            <div className='group-events-card-img'>
                                             {event.previewImage === 'no preview image provided' ? 'No preview image provided' : (
                                                 <img
+                                                className='group-event-card-preview-img'
                                                 alt={event.description}
                                                 src={event.previewImage}
-                                                style={{ height: '127px', width: '178px', objectFit:'cover'}}
                                                 />
                                             )}
-                                        </div>
-                                        <div className='group-events-card-info'>
-                                            <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
-                                            <div>{event.name}</div>
+                                            </div>
+                                            <div className='group-events-card-info'>
+                                                <div>{`${new Date(event.startDate).getFullYear()}-${(new Date(event.startDate).getMonth())+1}-${new Date(event.startDate).getDate()} • ${new Date(event.startDate).getHours()}:${new Date(event.startDate).getMinutes()}`}</div>
+                                                <div><p id='subtitle'>{event.name}</p></div>
                                             <div>{event.Venue?.city ? `${event.Venue.city}, ${event.Venue.state}` : `No location provided`}</div>
+                                            </div>
                                         </div>
+
+                                        <div className='group-events-card-description'>{event.description}</div>
                                     </div>
-                                    <div className='group-events-card-description'>{event.description}</div>
                                 </NavLink>
                             ))
                         }

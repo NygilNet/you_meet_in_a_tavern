@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ListHeader from '../ListHeader';
+import { resetGroup } from '../../store/groups';
 import Footer from '../Footer';
 import './GroupsListPage.css';
 
 function GroupsListPage() {
 
+    const dispatch = useDispatch();
     const groups = useSelector(state => Object.values(state.groups.allGroups));
     const events = useSelector(state => Object.values(state.events.allEvents));
+
+    useEffect(() => {
+        dispatch(
+         resetGroup()
+     );
+     }, [dispatch]);
 
     return (
         <div className='container'>

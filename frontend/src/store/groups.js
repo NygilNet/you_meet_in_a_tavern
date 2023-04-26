@@ -4,6 +4,7 @@ const RESTORE_GROUP = 'groups/restoreGroup';
 const SET_GROUP = 'groups/setGroup';
 const GET_GROUP = 'groups/getGroup';
 const REMOVE_GROUP = 'groups/removeGroup';
+const CLEAR_GROUP = 'groups/clearGroup';
 
 const restoreGroup = (groups) => {
     return {
@@ -31,6 +32,12 @@ const removeGroup = (id) => {
     return {
         type: REMOVE_GROUP,
         payload: id
+    };
+};
+
+const clearGroup = () => {
+    return {
+        type: CLEAR_GROUP
     };
 };
 
@@ -135,6 +142,10 @@ export const getSingleGroup = (id) => async (dispatch) => {
     }
 }
 
+export const resetGroup = () => async (dispatch) => {
+    dispatch(clearGroup());
+}
+
 
 const allGroups = {};
 const normalizeAllGroups = async () => {
@@ -152,6 +163,10 @@ const initialState = { allGroups, singleGroup: {} }
 const groupReducer = (state = initialState, action) => {
     let newState;
     switch(action.type) {
+        case CLEAR_GROUP:
+            newState = {...state};
+            delete newState.singleGroup;
+            return newState;
         case RESTORE_GROUP:
             newState = {...state};
             newState.allGroups = action.payload;

@@ -21,7 +21,22 @@
     justify-content: center;
     width: 544px;
     height: 320px;
+    margin-right: 30px;
+}
 
+.group-info-preview-img {
+    height: 320px;
+    width: 544px;
+    object-fit: cover;
+    border-radius: 5%;
+}
+
+h2#subtitle {
+    margin-bottom: 30px;
+}
+
+.group-info-location, .group-info-cetera, .group-info-organizer {
+    margin-bottom: 10px;
 }
 
 .group-info-info {
@@ -53,7 +68,16 @@
 
 button#viewer-button{
     background-color: red;
+    border: 1px solid red;
+    padding: 10px;
     color: white;
+    cursor: pointer;
+    border-radius: 10%;
+}
+
+button#viewer-button:hover {
+    border: 1px solid hsl(0, 100%, 50%, .7);
+    background-color: hsl(0, 100%, 50%, .7);
 }
 
 .group-details-events{
@@ -88,6 +112,14 @@ button#viewer-button{
     width: 178px;
 
     padding: 10px 0px 10px 10px;
+    margin-right: 10px;
+}
+
+.group-event-card-preview-img {
+    height: 127px;
+    width: 178px;
+    object-fit:cover;
+    border-radius: 5%;
 }
 
 .group-events-card-info {
@@ -99,6 +131,7 @@ button#viewer-button{
 
 .group-events-card-description {
     overflow: hidden;
+    max-height: 500px;
     padding: 0px 10px;
 }
 
