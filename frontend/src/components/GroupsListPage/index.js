@@ -13,9 +13,7 @@ function GroupsListPage() {
     const events = useSelector(state => Object.values(state.events.allEvents));
 
     useEffect(() => {
-        dispatch(
-         resetGroup()
-     );
+        dispatch(resetGroup());
      }, [dispatch]);
 
     return (

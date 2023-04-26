@@ -25,6 +25,9 @@
     padding: 5px;
 }
 
+.groups-list-item:hover {
+    box-shadow: 10px 5px 5px #cccccc;
+}
 
 
 .list-item-image {
