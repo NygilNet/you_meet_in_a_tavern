@@ -78,7 +78,7 @@ function EventForm({ event, formType }) {
     if (group.organizerId !== userId) return history.push('/');
 
     return (
-        <div>
+        <div className='container'>
             <div className='event-form-container'>
             <form onSubmit={handleSubmit}>
                 {formType === 'Create Event' && (
@@ -150,7 +150,9 @@ function EventForm({ event, formType }) {
                     ></textarea>
                     {attemptedSubmit && errors.description && (<div id='error'>{errors.description}</div>)}
                 </div>
-                <input className="event-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
+                <div className='event-form-buttons'>
+                    <input className="event-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
+                </div>
             </form>
         </div>
         </div>

@@ -137,5 +137,14 @@ button#viewer-button:hover {
 
 .organizer-button > button {
     background-color: #999999;
+    border: 1px solid #999999;
     margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5%;
+}
+
+.organizer-button > button:hover {
+    background-color: hsl(0, 0%, 60%, .7);
+    border: 1px solid hsl(0, 0%, 60%, .7);
 }

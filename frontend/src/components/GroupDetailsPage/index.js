@@ -83,7 +83,7 @@ function GroupDetailsPage() {
                                 }
                             </div>
                             <div className='group-info-organizer'>
-                                {`Organized by: ${group.Organizer.firstName} ${group.Organizer.lastName}`}
+                                {`Organized by: ${group.Organizer?.firstName} ${group.Organizer?.lastName}`}
                             </div>
                         </div>
                         <div className='group-button'>
@@ -111,7 +111,7 @@ function GroupDetailsPage() {
                 <div className='extra-info-group-details'>
                     <div className='organizer-details'>
                         <p id='subtitle'>Organizer</p>
-                        <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
+                        <p>{group.Organizer?.firstName} {group.Organizer?.lastName}</p>
                     </div>
                     <div className='what-were-about'>
                         <p id='subtitle'>What we're about</p>

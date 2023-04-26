@@ -3,6 +3,10 @@ div#modal-content{
     width: 35%;
 }
 
+.credential-input, .password-input {
+    margin: 5px 0;;
+}
+
 .log-in-modal{
     display: flex;
     flex-direction: column;

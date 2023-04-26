@@ -5,6 +5,10 @@
     margin: 10px;
 }
 
+.signup-form > label > input {
+    margin: 10px 0;
+}
+
 button#sign-up-button{
     align-self: center;
     width: 80%;

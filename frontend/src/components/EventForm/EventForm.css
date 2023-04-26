@@ -6,26 +6,72 @@
 
 .event-form-name {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.event-form-name > input {
+    margin: 20px 0;
 }
 
 .event-form-physical-info {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.event-form-physical-info > select, .event-form-physical-info > input {
+    margin: 20px 0;
 }
 
 .event-form-time-info {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.event-form-time-info > input {
+    margin: 20px 0;
 }
 
 .event-form-image {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.event-form-image > input {
+    margin: 20px 0;
 }
 
 .event-form-description {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.event-form-description > textarea {
+    margin: 20px 0;
+}
+
+.event-form-buttons {
+    display: flex;
+    justify-content: center;
 }
 
 .event-form-submit-button {
     background-color: #ff5a5f;
+    border: 1px solid #ff5a5f;
     color:#ffffff;
     width: auto;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5%;
+    margin: 15px;
+}
+
+.event-form-submit-button:hover {
+    background-color: hsl(358, 100%, 68%, .7);
+    border: 1px solid hsl(358, 100%, 68%, .7);
+}
+
+.event-form-submit-button:disabled {
+    background-color: gray;
+    border: 1px solid gray;
+    cursor: not-allowed;
 }

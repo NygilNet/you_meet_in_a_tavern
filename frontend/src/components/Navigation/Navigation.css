@@ -41,6 +41,10 @@ a#new-group {
     color: #00525e;
 }
 
+a#new-group:hover {
+    color:#008fa3;
+}
+
 button#profile {
     background-color: transparent;
     cursor: pointer;
