@@ -21,19 +21,19 @@ function EventDetailsPage() {
 
     const userId = useSelector(state => state.session.user?.id);
     const event = useSelector(state => state.events.singleEvent);
-    const eventPreviewImg = event.EventImages?.find(img => img?.preview)?.url;
+    const eventPreviewImg = event?.EventImages?.find(img => img?.preview)?.url;
 
     useEffect(() => {
         dispatch(
-            getSingleGroup(event.groupId)
+            getSingleGroup(event?.groupId)
         );
     }, [dispatch, event])
 
     const group = useSelector(state => state.groups.singleGroup);
-    const groupPreviewImg = group.GroupImages?.find(img => img?.preview)?.url;
+    const groupPreviewImg = group?.GroupImages?.find(img => img?.preview)?.url;
     const isOrganizer = userId === group?.organizerId;
 
-    if(!Object.values(event)[0] || !Object.values(group)[0]) return null;
+    if(!event || !group) return null;
 
     return (
         <div className='container'>
@@ -53,9 +53,9 @@ function EventDetailsPage() {
                         {
                             eventPreviewImg ? (
                                 <img
+                                className='event-details-preview-img'
                                 src={eventPreviewImg}
                                 alt={event.description}
-                                style={{ height: '320px', width: '544px', objectFit: 'cover'}}
                                 />
                             ) : 'No image provided'
                         }
@@ -66,9 +66,9 @@ function EventDetailsPage() {
                                 {
                                     groupPreviewImg ? (
                                         <img
+                                        className='event-details-group-preview-img'
                                         src={groupPreviewImg}
                                         alt={group.about}
-                                        style={{ height:'62px', width: '90px', objectFit: 'cover'}}
                                         />
                                     ) : 'No image provided'
                                 }

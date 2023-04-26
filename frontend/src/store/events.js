@@ -4,6 +4,7 @@ const RESTORE_EVENT = 'events/restoreEvent'
 const SET_EVENT = 'events/setEvent';
 const GET_EVENT = 'events/getEvent';
 const REMOVE_EVENT = 'events/removeEvent';
+const CLEAR_EVENT = 'events/clearEvent'
 
 const restoreEvent = (events) => {
     return {
@@ -32,6 +33,12 @@ const removeEvent = (id) => {
         payload: id
     }
 };
+
+const clearEvent = () => {
+    return {
+        type: CLEAR_EVENT,
+    }
+}
 
 const normalizeData = (array) => {
     const obj = {};
@@ -100,6 +107,10 @@ export const getSingleEvent = (id) => async (dispatch) => {
     }
 }
 
+export const resetEvent = () => async (dispatch) => {
+    dispatch(clearEvent());
+}
+
 const allEvents = {};
 const normalizeAllEvents = async () => {
     const obj = {};
@@ -116,6 +127,10 @@ const initialState = { allEvents, singleEvent: {} };
 const eventReducer = (state = initialState, action) => {
     let newState;
     switch(action.type) {
+        case CLEAR_EVENT:
+            newState = {...state};
+            delete newState.singleEvent;
+            return newState;
         case RESTORE_EVENT:
             newState = {...state};
             newState.allEvents = action.payload;

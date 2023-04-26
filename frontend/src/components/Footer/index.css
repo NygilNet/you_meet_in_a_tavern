@@ -16,6 +16,10 @@ footer {
     width: 25%;
 }
 
+.footer-links > p {
+    margin: 10px;
+}
+
 .footer-links > ul {
     list-style: none;
 

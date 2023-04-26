@@ -29,7 +29,7 @@ function GroupForm({ group, formType }) {
         if (!location) error.location = 'Location is required';
         if (location && (!location.split(', ')[1] || location.split(', ')[2])) error.location = 'Location must be formatted as City, STATE';
         if (!name) error.name = 'Name is required';
-        if (about.length < 30) error.about = 'Description must be at least 30 characters long';
+        if (about.length <= 30) error.about = 'Description must be at least 30 characters long';
         if (!type) error.type = 'Group Type is required';
         if (!pri) error.pri = 'Visibility Type is required';
         if (previewImg) {
@@ -187,7 +187,7 @@ function GroupForm({ group, formType }) {
 
 
                 </div>
-                <div>
+                <div className='group-form-buttons'>
                     <input className="group-form-submit-button" type="submit" value={formType} disabled={attemptedSubmit && Object.values(errors)[0] ? true : false} />
                 </div>
             </form>

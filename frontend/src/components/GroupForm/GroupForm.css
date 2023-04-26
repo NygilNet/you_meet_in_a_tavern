@@ -10,26 +10,62 @@
 
 .group-form-instructions {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
 }
 
 .group-form-set-location {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.group-form-set-location > input {
+    margin: 20px 0;
 }
 
 .group-form-set-name {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.group-form-set-name > input {
+    margin: 20px 0;
 }
 
 .group-form-set-about {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.group-form-set-about > textarea {
+    margin: 20px 0;
 }
 
 .group-form-final-sets {
     border-bottom: solid 2px #cccccc;
+    padding: 10px;
+}
+
+.group-form-final-sets > select, .group-form-final-sets > input {
+    margin: 20px 0;
+}
+
+.group-form-buttons {
+    display: flex;
+    justify-content: center;
 }
 
 .group-form-submit-button {
     background-color: #ff5a5f;
+    border: 1px solid #ff5a5f;
     color:#ffffff;
     width: auto;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5%;
+    margin: 15px;
+}
+
+.group-form-submit-button:hover {
+    background-color: hsl(358, 100%, 68%, .7);
+    border: 1px solid hsl(358, 100%, 68%, .7);
 }

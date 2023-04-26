@@ -67,9 +67,9 @@ function ProfileButton({ user }) {
         <li onClick={viewEventsButton} style={{cursor: 'pointer'}}>Find an event</li>
         {user ? (
           <>
-            <li>Hello, "{user.firstName}"</li>
-            <li>{user.username}</li>
-            <li>{user.email}</li>
+            <li id="not-click">Hello, "{user.firstName}"</li>
+            <li id="not-click">{user.username}</li>
+            <li id="not-click">{user.email}</li>
             <li>
               <button onClick={logout} id="profile-logout">Log Out</button>
             </li>
